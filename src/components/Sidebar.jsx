@@ -3,21 +3,23 @@ import { FaPlus } from "react-icons/fa";
 import { Link, NavLink } from "react-router-dom";
 
 export default function Sidebar() {
+    // Mengganti warna hijau ke biru untuk menu yang aktif dan saat di-hover
     const menuClass = ({ isActive }) =>
         `flex cursor-pointer items-center rounded-xl p-4  space-x-2
         ${isActive ?
-            "text-hijau bg-green-200 font-extrabold" :
-            "text-gray-600 hover:text-hijau hover:bg-green-200 hover:font-extrabold"
+            "text-blue-600 bg-blue-100 font-extrabold" :
+            "text-gray-600 hover:text-blue-600 hover:bg-blue-100 hover:font-extrabold"
         }`
 
     return (
         <div id="sidebar" className="flex min-h-screen w-90 flex-col bg-white p-10 shadow-lg">
             {/* Logo */}
             <div id="sidebar-logo" className="flex flex-col">
+                {/* Mengganti teks Sedap menjadi Bilas (atau bisa kamu ganti "Laundry") */}
                 <span id="logo-title" className="font-poppins text-[48px] text-gray-900">
-                    Sedap <b id="logo-dot" className="text-hijau">.</b>
+                    Cuci Bersih <b id="logo-dot" className="text-blue-600">.</b>
                 </span>
-                <span id="logo-subtitle" className="font-semibold text-gray-400">Modern Admin Dashboard</span>
+                <span id="logo-subtitle" className="font-semibold text-gray-400">Laundry Admin Dashboard</span>
             </div>
 
             {/* List Menu */}
@@ -42,7 +44,7 @@ export default function Sidebar() {
                         </NavLink>
                     </li>
                     <li>
-                       <NavLink to="*" className={menuClass}>
+                        <NavLink to="*" className={menuClass}>
                             <MdPeople className="mr-4 text-xl" />
                             <span>NotFound</span>
                         </NavLink>
@@ -52,7 +54,8 @@ export default function Sidebar() {
 
             {/* Footer */}
             <div id="sidebar-footer" className="mt-auto">
-                <div id="footer-card" className="mb-10 flex items-center rounded-md bg-hijau px-4 py-2 shadow-lg">
+                {/* Mengganti bg-hijau menjadi bg-blue-500 */}
+                <div id="footer-card" className="mb-10 flex items-center rounded-md bg-blue-500 px-4 py-2 shadow-lg">
                     <div id="footer-text" className="text-sm text-white">
                         <span>Please organize your menus through button below!</span>
                         <div id="add-menu-button" className="mt-3 flex items-center justify-center space-x-2 rounded-md bg-white p-2">
@@ -62,7 +65,8 @@ export default function Sidebar() {
                     </div>
                     <img id="footer-avatar" className="w-20 rounded-full" src="img/Farid.jpeg" alt="avatar" />
                 </div>
-                <span id="footer-brand" className="font-bold text-gray-400">Sedap Restaurant Admin Dashboard</span>
+                {/* Mengganti teks brand footer */}
+                <span id="footer-brand" className="font-bold text-gray-400">Bilas Laundry Admin Dashboard</span>
                 <p id="footer-copyright" className="font-light text-gray-400">&copy; 2026 All Right Reserved</p>
             </div>
         </div>

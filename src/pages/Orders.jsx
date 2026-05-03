@@ -34,42 +34,60 @@ const ordersData = [
   { orderId: "ORD-1030", customerName: "Dinda Hauw", status: "Pending", totalPrice: 105000, orderDate: "2024-04-30" }
 ];
 
+// Fungsi untuk memberi warna badge berdasarkan status pesanan
+const getStatusBadge = (status) => {
+    switch (status) {
+        case "Completed":
+            return "bg-green-100 text-green-800 border-green-200";
+        case "Pending":
+            return "bg-yellow-100 text-yellow-800 border-yellow-200";
+        case "Cancelled":
+            return "bg-red-100 text-red-800 border-red-200";
+        default:
+            return "bg-gray-100 text-gray-800 border-gray-200";
+    }
+};
+
 export default function Orders() {
     return (
-        <div style={{ padding: '20px' }}>
+        <div className="p-8">
             <PageHeader 
                 title="Orders" 
-                breadcrumb={["Dashboard", "Orders"]} 
+                // Mengubah Dashboard menjadi Laundry
+                breadcrumb={["Laundry", "Orders"]} 
                 actionLabel="Add Order" 
                 actionLink="/add-order" 
             />
             
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                <table border="1" cellPadding="10" style={{ width: '100%', borderCollapse: 'collapse' }}>
-                    <thead style={{ backgroundColor: '#f2f2f2', textAlign: 'left' }}>
+            {/* Wrapper tabel dengan overflow-x-auto agar responsif */}
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-x-auto">
+                <table className="w-full text-left border-collapse min-w-max">
+                    <thead className="bg-blue-50 text-blue-900 border-b border-blue-100">
                         <tr>
-                            <th>Order ID</th>
-                            <th>Customer Name</th>
-                            <th>Status</th>
-                            <th>Total Price (Rp)</th>
-                            <th>Order Date</th>
+                            <th className="py-4 px-6 font-semibold text-sm">Order ID</th>
+                            <th className="py-4 px-6 font-semibold text-sm">Customer Name</th>
+                            <th className="py-4 px-6 font-semibold text-sm">Status</th>
+                            <th className="py-4 px-6 font-semibold text-sm">Total Price (Rp)</th>
+                            <th className="py-4 px-6 font-semibold text-sm">Order Date</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="text-gray-600 text-sm">
                         {ordersData.map((order, index) => (
-                            <tr key={index} style={{ borderBottom: '1px solid #ddd' }}>
-                                <td>{order.orderId}</td>
-                                <td>{order.customerName}</td>
-                                <td>
-                                    <span style={{ 
-                                        color: order.status === 'Completed' ? 'green' : order.status === 'Cancelled' ? 'red' : 'orange',
-                                        fontWeight: 'bold'
-                                    }}>
+                            <tr 
+                                key={index} 
+                                className="border-b border-gray-50 hover:bg-blue-50/50 transition-colors duration-200"
+                            >
+                                <td className="py-4 px-6 font-medium text-gray-900">{order.orderId}</td>
+                                <td className="py-4 px-6">{order.customerName}</td>
+                                <td className="py-4 px-6">
+                                    {/* Badge Status */}
+                                    <span className={`px-3 py-1 rounded-full text-xs font-bold border ${getStatusBadge(order.status)}`}>
                                         {order.status}
                                     </span>
                                 </td>
-                                <td>{order.totalPrice.toLocaleString('id-ID')}</td>
-                                <td>{order.orderDate}</td>
+                                {/* Format angka agar ada titik ribuan */}
+                                <td className="py-4 px-6">Rp {order.totalPrice.toLocaleString('id-ID')}</td>
+                                <td className="py-4 px-6">{order.orderDate}</td>
                             </tr>
                         ))}
                     </tbody>

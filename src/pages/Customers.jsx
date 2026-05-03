@@ -34,35 +34,58 @@ const customersData = [
   { customerId: "CUST-030", customerName: "Dinda Hauw", email: "dinda@example.com", phone: "081234567830", loyalty: "Bronze" }
 ];
 
+// Fungsi untuk memberikan warna badge berdasarkan tingkat Loyalty
+const getLoyaltyBadge = (loyalty) => {
+    switch (loyalty) {
+        case "Gold":
+            return "bg-yellow-100 text-yellow-800 border-yellow-200";
+        case "Silver":
+            return "bg-gray-100 text-gray-600 border-gray-200";
+        case "Bronze":
+            return "bg-amber-100 text-amber-800 border-amber-200";
+        default:
+            return "bg-blue-100 text-blue-800 border-blue-200";
+    }
+};
+
 export default function Customers() {
     return (
-        <div style={{ padding: '20px' }}>
+        <div className="p-8">
             <PageHeader 
                 title="Customers" 
-                breadcrumb={["Dashboard", "Customers"]} 
+                breadcrumb={["Laundry", "Customers"]} 
                 actionLabel="Add Customer" 
                 actionLink="/add-customer" 
             />
             
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                <table border="1" cellPadding="10" style={{ width: '100%', borderCollapse: 'collapse' }}>
-                    <thead style={{ backgroundColor: '#f2f2f2', textAlign: 'left' }}>
+            {/* Wrapper tabel dengan overflow-x-auto agar tidak rusak di layar kecil */}
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-x-auto">
+                <table className="w-full text-left border-collapse min-w-max">
+                    <thead className="bg-blue-50 text-blue-900 border-b border-blue-100">
                         <tr>
-                            <th>Customer ID</th>
-                            <th>Customer Name</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Loyalty</th>
+                            <th className="py-4 px-6 font-semibold text-sm">Customer ID</th>
+                            <th className="py-4 px-6 font-semibold text-sm">Customer Name</th>
+                            <th className="py-4 px-6 font-semibold text-sm">Email</th>
+                            <th className="py-4 px-6 font-semibold text-sm">Phone</th>
+                            <th className="py-4 px-6 font-semibold text-sm">Loyalty</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="text-gray-600 text-sm">
                         {customersData.map((customer, index) => (
-                            <tr key={index} style={{ borderBottom: '1px solid #ddd' }}>
-                                <td>{customer.customerId}</td>
-                                <td>{customer.customerName}</td>
-                                <td>{customer.email}</td>
-                                <td>{customer.phone}</td>
-                                <td>{customer.loyalty}</td>
+                            <tr 
+                                key={index} 
+                                className="border-b border-gray-50 hover:bg-blue-50/50 transition-colors duration-200"
+                            >
+                                <td className="py-4 px-6 font-medium text-gray-900">{customer.customerId}</td>
+                                <td className="py-4 px-6">{customer.customerName}</td>
+                                <td className="py-4 px-6">{customer.email}</td>
+                                <td className="py-4 px-6">{customer.phone}</td>
+                                <td className="py-4 px-6">
+                                    {/* Badge Loyalty */}
+                                    <span className={`px-3 py-1 rounded-full text-xs font-bold border ${getLoyaltyBadge(customer.loyalty)}`}>
+                                        {customer.loyalty}
+                                    </span>
+                                </td>
                             </tr>
                         ))}
                     </tbody>
