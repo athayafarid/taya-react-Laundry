@@ -16,3 +16,40 @@
 body {
   font-family: 'Poppins', sans-serif;
 }
+
+body {
+  background: #f5f7fb;
+}
+
+/* Card modern */
+.card-modern {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+/* Button gradient */
+.btn-gradient {
+  background: linear-gradient(135deg, #3b82f6, #6366f1);
+  color: white;
+  border-radius: 12px;
+  transition: 0.3s;
+}
+
+.btn-gradient:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/* Input modern */
+.input-modern {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 12px;
+  outline: none;
+}
+
+.input-modern:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+}

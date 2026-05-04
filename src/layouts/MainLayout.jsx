@@ -4,21 +4,19 @@ import { Outlet } from "react-router-dom";
 
 export default function MainLayout() {
     return (
-        <div className="flex min-h-screen bg-gray-100">
+        <div className="bg-gray-100 min-h-screen">
 
-            {/* SIDEBAR (KIRI) */}
+            {/* SIDEBAR */}
             <Sidebar />
 
-            {/* KANAN */}
-            <div className="flex flex-col flex-1">
+            {/* KONTEN KANAN */}
+            <div className="ml-72 flex flex-col min-h-screen">
 
-                {/* HEADER (ATAS) */}
+                {/* HEADER */}
                 <Header />
 
                 {/* CONTENT */}
-                <div className="p-6">
-
-
+                <div className="p-6 flex-1 overflow-y-auto">
                     <Outlet />
                 </div>
 

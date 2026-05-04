@@ -1,100 +1,222 @@
+import { useEffect, useState } from "react";
 import PageHeader from "../components/PageHeader";
 
 export default function AddOrder() {
+
+    const [services, setServices] = useState([]);
+    const [customers, setCustomers] = useState([]);
+
+    const [selectedService, setSelectedService] = useState("");
+    const [selectedCustomer, setSelectedCustomer] = useState("");
+
+    const [price, setPrice] = useState(0);
+    const [weight, setWeight] = useState(1);
+
+    const [selectedCustomerDetail, setSelectedCustomerDetail] = useState(null);
+
+    const [form, setForm] = useState({
+        id: "",
+        date: "",
+        status: "",
+    });
+
+    useEffect(() => {
+        const serviceData = JSON.parse(localStorage.getItem("services")) || [];
+        const customerData = JSON.parse(localStorage.getItem("customers")) || [];
+
+        setServices(serviceData);
+        setCustomers(customerData);
+    }, []);
+
+    const handleServiceChange = (e) => {
+        const serviceId = e.target.value;
+        setSelectedService(serviceId);
+
+        const selected = services.find(s => s.id.toString() === serviceId);
+        if (selected) setPrice(selected.price);
+    };
+
+    const handleCustomerChange = (e) => {
+        const customerId = e.target.value;
+        setSelectedCustomer(customerId);
+
+        const selected = customers.find(c => c.id.toString() === customerId);
+        setSelectedCustomerDetail(selected);
+    };
+
+    const total = price * weight;
+
+    const handleChange = (e) => {
+        setForm({
+            ...form,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        const newOrder = {
+            id: form.id || "TRX" + Date.now(),
+            date: form.date,
+            customer: selectedCustomerDetail?.name,
+            phone: selectedCustomerDetail?.phone,
+            service: services.find(s => s.id.toString() === selectedService)?.name,
+            price,
+            weight,
+            total,
+            status: form.status || "Order Diterima",
+            payment: "Belum Bayar",
+            steps: ["Order Diterima", "Diproses", "Selesai", "Diambil"],
+            currentStep: 0,
+        };
+
+        const existing = JSON.parse(localStorage.getItem("orders")) || [];
+        localStorage.setItem("orders", JSON.stringify([...existing, newOrder]));
+
+        alert("Order berhasil disimpan!");
+
+        // reset
+        setForm({ id: "", date: "", status: "" });
+        setSelectedService("");
+        setSelectedCustomer("");
+        setSelectedCustomerDetail(null);
+        setPrice(0);
+        setWeight(1);
+    };
+
     return (
         <div className="p-8">
             <PageHeader 
                 title="Add New Order" 
                 breadcrumb={["Laundry", "Orders", "Add Order"]} 
                 actionLabel="Back to Orders"
-                actionLink="/orders"
+                actionTo="/orders"
             />
             
-            <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 max-w-4xl animate-in fade-in duration-500">
-                <form className="flex flex-col gap-6">
+            <div className="bg-white p-8 rounded-2xl shadow-sm border max-w-4xl">
+                <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
                     
-                    {/* Menggunakan Grid agar form menjadi 2 kolom di layar desktop */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         
                         {/* Order ID */}
                         <div className="flex flex-col gap-2">
-                            <label className="font-semibold text-gray-700">Order ID</label>
+                            <label>Order ID</label>
                             <input 
-                                type="text" 
-                                placeholder="Contoh: ORD-1031" 
-                                className="border border-gray-300 rounded-xl p-3 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all bg-gray-50" 
-                                required 
+                                name="id"
+                                value={form.id}
+                                onChange={handleChange}
+                                className="border p-3 rounded-xl bg-gray-50"
+                                placeholder="Auto jika kosong"
                             />
                         </div>
 
-                        {/* Order Date */}
+                        {/* Date */}
                         <div className="flex flex-col gap-2">
-                            <label className="font-semibold text-gray-700">Order Date</label>
+                            <label>Order Date</label>
                             <input 
-                                type="date" 
-                                className="border border-gray-300 rounded-xl p-3 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all" 
-                                required 
+                                name="date"
+                                type="date"
+                                value={form.date}
+                                onChange={handleChange}
+                                className="border p-3 rounded-xl"
+                                required
                             />
                         </div>
 
-                        {/* Customer Name */}
+                        {/* CUSTOMER DROPDOWN */}
                         <div className="flex flex-col gap-2">
-                            <label className="font-semibold text-gray-700">Customer Name</label>
-                            <input 
-                                type="text" 
-                                placeholder="Masukkan nama customer" 
-                                className="border border-gray-300 rounded-xl p-3 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all" 
-                                required 
-                            />
+                            <label>Customer</label>
+                            <select
+                                value={selectedCustomer}
+                                onChange={handleCustomerChange}
+                                className="border p-3 rounded-xl"
+                                required
+                            >
+                                <option value="">Pilih Customer</option>
+                                {customers.map(c => (
+                                    <option key={c.id} value={c.id}>
+                                        {c.name} - {c.phone}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
 
                         {/* Status */}
                         <div className="flex flex-col gap-2">
-                            <label className="font-semibold text-gray-700">Status</label>
-                            <select 
-                                className="border border-gray-300 rounded-xl p-3 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all bg-white" 
-                                required
+                            <label>Status</label>
+                            <select
+                                name="status"
+                                value={form.status}
+                                onChange={handleChange}
+                                className="border p-3 rounded-xl"
                             >
-                                <option value="">-- Pilih Status --</option>
-                                <option value="Pending">Pending (Menunggu)</option>
-                                <option value="Washing">Washing (Proses Cuci/Setrika)</option>
-                                <option value="Ready">Ready (Siap Diambil)</option>
-                                <option value="Completed">Completed (Selesai)</option>
-                                <option value="Cancelled">Cancelled (Dibatalkan)</option>
+                                <option value="">Default</option>
+                                <option value="Diproses">Diproses</option>
+                                <option value="Selesai">Selesai</option>
+                                <option value="Diambil">Diambil</option>
                             </select>
                         </div>
-                    </div>
 
-                    {/* Total Price (Sengaja dibuat full width) */}
-                    <div className="flex flex-col gap-2">
-                        <label className="font-semibold text-gray-700">Total Price (Rp)</label>
-                        <div className="relative">
-                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-medium">Rp</span>
-                            <input 
-                                type="number" 
-                                placeholder="0" 
-                                className="w-full border border-gray-300 rounded-xl py-3 pr-3 pl-12 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all" 
-                                required 
+                        {/* Layanan */}
+                        <div className="flex flex-col gap-2">
+                            <label>Layanan</label>
+                            <select
+                                value={selectedService}
+                                onChange={handleServiceChange}
+                                className="border p-3 rounded-xl"
+                                required
+                            >
+                                <option value="">Pilih Layanan</option>
+                                {services.map(s => (
+                                    <option key={s.id} value={s.id}>
+                                        {s.name} - Rp {s.price}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+
+                        {/* Berat */}
+                        <div className="flex flex-col gap-2">
+                            <label>Berat (kg)</label>
+                            <input
+                                type="number"
+                                value={weight}
+                                onChange={(e) => setWeight(Number(e.target.value))}
+                                className="border p-3 rounded-xl"
+                                min="1"
                             />
                         </div>
                     </div>
 
-                    {/* Action Buttons */}
-                    <div className="flex justify-end gap-4 mt-6 pt-6 border-t border-gray-100">
-                        {/* Tombol Cancel */}
-                        <button 
-                            type="button" 
-                            className="bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 px-6 rounded-xl transition-all active:scale-95"
-                            onClick={() => window.history.back()}
-                        >
+                    {/* DETAIL CUSTOMER */}
+                    {selectedCustomerDetail && (
+                        <div className="bg-blue-50 p-4 rounded-xl">
+                            <p><b>Nama:</b> {selectedCustomerDetail.name}</p>
+                            <p><b>Phone:</b> {selectedCustomerDetail.phone}</p>
+                            <p><b>Email:</b> {selectedCustomerDetail.email}</p>
+                        </div>
+                    )}
+
+                    {/* Harga */}
+                    <input
+                        value={`Rp ${price}`}
+                        disabled
+                        className="border p-3 rounded-xl bg-gray-100"
+                    />
+
+                    {/* Total */}
+                    <input
+                        value={`Rp ${total}`}
+                        disabled
+                        className="border p-3 rounded-xl bg-gray-100 font-bold"
+                    />
+
+                    <div className="flex justify-end gap-4 pt-4">
+                        <button type="button" onClick={() => window.history.back()}>
                             Cancel
                         </button>
-                        
-                        {/* Tombol Submit */}
-                        <button 
-                            type="submit" 
-                            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-lg shadow-blue-100 active:scale-95"
-                        >
+                        <button className="bg-blue-500 text-white px-6 py-3 rounded-xl">
                             Save Order
                         </button>
                     </div>
