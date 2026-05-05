@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import PageHeader from "../components/PageHeader";
+import { Button, Card, Input, Badge, Table } from "../components/Anatomy";
 
 export default function Orders() {
 
@@ -29,10 +30,10 @@ export default function Orders() {
     return (
         <div className="p-8 bg-[#e0e5ec] min-h-screen">
 
-            <PageHeader 
-                title="Orders" 
-                breadcrumb={["Laundry", "Orders"]} 
-                actionLabel="Add Order" 
+            <PageHeader
+                title="Orders"
+                breadcrumb={["Laundry", "Orders"]}
+                actionLabel="Add Order"
                 actionTo="/add-order"
             />
 

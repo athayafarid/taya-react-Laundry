@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import PageHeader from "../components/PageHeader";
+import { Button, Card, Input, Badge, Table } from "../components/Anatomy";
 
 export default function AddOrder() {
 
@@ -87,22 +88,22 @@ export default function AddOrder() {
 
     return (
         <div className="p-8">
-            <PageHeader 
-                title="Add New Order" 
-                breadcrumb={["Laundry", "Orders", "Add Order"]} 
+            <PageHeader
+                title="Add New Order"
+                breadcrumb={["Laundry", "Orders", "Add Order"]}
                 actionLabel="Back to Orders"
                 actionTo="/orders"
             />
-            
+
             <div className="bg-white p-8 rounded-2xl shadow-sm border max-w-4xl">
                 <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
-                    
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        
+
                         {/* Order ID */}
                         <div className="flex flex-col gap-2">
                             <label>Order ID</label>
-                            <input 
+                            <input
                                 name="id"
                                 value={form.id}
                                 onChange={handleChange}
@@ -114,7 +115,7 @@ export default function AddOrder() {
                         {/* Date */}
                         <div className="flex flex-col gap-2">
                             <label>Order Date</label>
-                            <input 
+                            <input
                                 name="date"
                                 type="date"
                                 value={form.date}

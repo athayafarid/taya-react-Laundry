@@ -1,5 +1,6 @@
 import PageHeader from "../components/PageHeader";
 import { useEffect, useState } from "react";
+import { Button, Card, Input, Badge, Table } from "../components/Anatomy";
 
 // DATA AWAL
 const initialCustomers = [
@@ -44,11 +45,11 @@ export default function Customers() {
 
   return (
     <div className="p-8">
-      <PageHeader 
-        title="Customers" 
-        breadcrumb={["Laundry", "Customers"]} 
-        actionLabel="Add Customer" 
-        actionTo="/add-customer" 
+      <PageHeader
+        title="Customers"
+        breadcrumb={["Laundry", "Customers"]}
+        actionLabel="Add Customer"
+        actionTo="/add-customer"
       />
 
       <div className="bg-white rounded-2xl shadow-sm border overflow-x-auto">

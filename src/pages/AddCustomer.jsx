@@ -1,4 +1,5 @@
 import PageHeader from "../components/PageHeader";
+import { Button, Card, Input, Badge, Table } from "../components/Anatomy";
 
 // Generate 30 Data Orders
 const ordersData = [

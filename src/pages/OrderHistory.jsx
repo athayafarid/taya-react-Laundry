@@ -1,91 +1,91 @@
-// OrderHistory.jsx
-import { useState } from "react";
-
-const initialOrders = [
-  {
-    id: 1,
-    customerName: "Budi",
-    phone: "08123456789",
-    service: "Cuci Kering",
-    date: "2026-05-01",
-    status: "Selesai",
-    paymentStatus: "Belum Bayar",
-    total: 15000,
-  },
-  {
-    id: 2,
-    customerName: "Siti",
-    phone: "08987654321",
-    service: "Setrika",
-    date: "2026-05-02",
-    status: "Proses",
-    paymentStatus: "Sudah Bayar",
-    total: 10000,
-  },
-];
+import { useEffect, useState } from "react";
+import PageHeader from "../components/PageHeader";
 
 export default function OrderHistory() {
-  const [orders, setOrders] = useState(initialOrders);
+  const [orders, setOrders] = useState([]);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
   const [selectedOrder, setSelectedOrder] = useState(null);
 
+  // 🔥 LOAD DATA REAL
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem("orders")) || [];
+    setOrders(data);
+  }, []);
+
+  const formatRupiah = (angka) =>
+    new Intl.NumberFormat("id-ID").format(angka);
+
+  // 🔥 TOGGLE PEMBAYARAN + SIMPAN
   const togglePayment = (id) => {
-    setOrders((prev) =>
-      prev.map((o) =>
-        o.id === id
-          ? {
-              ...o,
-              paymentStatus:
-                o.paymentStatus === "Sudah Bayar"
-                  ? "Belum Bayar"
-                  : "Sudah Bayar",
-            }
-          : o
-      )
+    const updated = orders.map((o) =>
+      o.id === id
+        ? {
+          ...o,
+          payment:
+            o.payment === "Sudah Bayar"
+              ? "Belum Bayar"
+              : "Sudah Bayar",
+        }
+        : o
     );
+
+    setOrders(updated);
+    localStorage.setItem("orders", JSON.stringify(updated));
   };
 
+  // 🔥 FILTER DATA
   const filteredOrders = orders.filter((o) => {
     const matchSearch =
-      o.customerName.toLowerCase().includes(search.toLowerCase()) ||
-      o.phone.includes(search);
+      o.customer?.toLowerCase().includes(search.toLowerCase()) ||
+      o.id?.toLowerCase().includes(search.toLowerCase());
 
     const matchFilter =
       filter === "all"
         ? true
-        : o.paymentStatus === (filter === "paid" ? "Sudah Bayar" : "Belum Bayar");
+        : o.payment === (filter === "paid" ? "Sudah Bayar" : "Belum Bayar");
 
     return matchSearch && matchFilter;
   });
 
+  // 🔥 SUMMARY
   const totalOrders = orders.length;
-  const paid = orders.filter((o) => o.paymentStatus === "Sudah Bayar").length;
-  const unpaid = orders.filter((o) => o.paymentStatus === "Belum Bayar").length;
+  const paid = orders.filter((o) => o.payment === "Sudah Bayar").length;
+  const unpaid = orders.filter((o) => o.payment !== "Sudah Bayar").length;
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Riwayat Order & Pembayaran</h1>
+    <div className="p-8 bg-[#e0e5ec] min-h-screen">
 
-      {/* Summary */}
-      <div className="grid grid-cols-3 gap-4 mb-6">
-        <div className="bg-white p-4 rounded shadow">Total: {totalOrders}</div>
-        <div className="bg-green-100 p-4 rounded shadow">Sudah Bayar: {paid}</div>
-        <div className="bg-red-100 p-4 rounded shadow">Belum Bayar: {unpaid}</div>
+      <PageHeader
+        title="Riwayat Order & Pembayaran"
+        breadcrumb={["Laundry", "Riwayat"]}
+      />
+
+      {/* 🔥 SUMMARY */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="p-4 rounded-xl bg-white shadow">
+          Total: {totalOrders}
+        </div>
+        <div className="p-4 rounded-xl bg-green-100 shadow">
+          Sudah Bayar: {paid}
+        </div>
+        <div className="p-4 rounded-xl bg-red-100 shadow">
+          Belum Bayar: {unpaid}
+        </div>
       </div>
 
-      {/* Filter */}
-      <div className="flex gap-3 mb-4">
+      {/* 🔥 FILTER */}
+      <div className="flex gap-3 mb-6">
         <input
           type="text"
-          placeholder="Cari nama / nomor"
-          className="border p-2 rounded w-full"
+          placeholder="Cari ID / nama customer"
+          className="p-3 rounded-xl w-full border"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
 
         <select
-          className="border p-2 rounded"
+          className="p-3 rounded-xl border"
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
         >
@@ -95,76 +95,91 @@ export default function OrderHistory() {
         </select>
       </div>
 
-      {/* Table */}
-      <table className="w-full border">
-        <thead className="bg-gray-100">
-          <tr>
-            <th className="p-2">Nama</th>
-            <th>Layanan</th>
-            <th>Tanggal</th>
-            <th>Status</th>
-            <th>Pembayaran</th>
-            <th>Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredOrders.map((o) => (
-            <tr key={o.id} className="text-center border-t">
-              <td>{o.customerName}</td>
-              <td>{o.service}</td>
-              <td>{o.date}</td>
-              <td>{o.status}</td>
-              <td>
-                <span
-                  className={`px-2 py-1 rounded text-white ${
-                    o.paymentStatus === "Sudah Bayar"
-                      ? "bg-green-500"
-                      : "bg-red-500"
-                  }`}
-                >
-                  {o.paymentStatus}
-                </span>
-              </td>
-              <td className="flex gap-2 justify-center py-2">
-                <button
-                  onClick={() => setSelectedOrder(o)}
-                  className="bg-blue-500 text-white px-2 py-1 rounded"
-                >
-                  Detail
-                </button>
-                <button
-                  onClick={() => togglePayment(o.id)}
-                  className="bg-yellow-500 text-white px-2 py-1 rounded"
-                >
-                  Toggle Bayar
-                </button>
-              </td>
+      {/* 🔥 TABLE */}
+      <div className="bg-white rounded-2xl shadow overflow-x-auto">
+        <table className="w-full text-left">
+          <thead className="bg-gray-100 text-sm">
+            <tr>
+              <th className="p-3">ID</th>
+              <th>Customer</th>
+              <th>Layanan</th>
+              <th>Total</th>
+              <th>Status</th>
+              <th>Pembayaran</th>
+              <th>Aksi</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
 
-      {/* Detail Modal */}
+          <tbody>
+            {filteredOrders.map((o) => (
+              <tr key={o.id} className="border-t text-sm">
+                <td className="p-3 font-semibold">{o.id}</td>
+                <td>{o.customer}</td>
+                <td>{o.service}</td>
+                <td>Rp {formatRupiah(o.total)}</td>
+                <td>{o.status}</td>
+
+                <td>
+                  <span
+                    className={`px-2 py-1 rounded text-white text-xs ${o.payment === "Sudah Bayar"
+                        ? "bg-green-500"
+                        : "bg-red-500"
+                      }`}
+                  >
+                    {o.payment || "Belum Bayar"}
+                  </span>
+                </td>
+
+                <td className="flex gap-2 p-2">
+                  <button
+                    onClick={() => setSelectedOrder(o)}
+                    className="bg-blue-500 text-white px-2 py-1 rounded"
+                  >
+                    Detail
+                  </button>
+
+                  <button
+                    onClick={() => togglePayment(o.id)}
+                    className="bg-yellow-500 text-white px-2 py-1 rounded"
+                  >
+                    Toggle
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        {filteredOrders.length === 0 && (
+          <p className="p-6 text-center text-gray-400">
+            Tidak ada data
+          </p>
+        )}
+      </div>
+
+      {/* 🔥 MODAL */}
       {selectedOrder && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded w-96">
-            <h2 className="text-xl font-bold mb-2">Detail Order</h2>
-            <p>Nama: {selectedOrder.customerName}</p>
-            <p>Layanan: {selectedOrder.service}</p>
-            <p>Total: Rp {selectedOrder.total}</p>
-            <p>Status: {selectedOrder.status}</p>
-            <p>Pembayaran: {selectedOrder.paymentStatus}</p>
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-xl w-96">
+            <h2 className="text-lg font-bold mb-3">Detail Order</h2>
+
+            <p><b>ID:</b> {selectedOrder.id}</p>
+            <p><b>Customer:</b> {selectedOrder.customer}</p>
+            <p><b>Layanan:</b> {selectedOrder.service}</p>
+            <p><b>Total:</b> Rp {formatRupiah(selectedOrder.total)}</p>
+            <p><b>Status:</b> {selectedOrder.status}</p>
+            <p><b>Pembayaran:</b> {selectedOrder.payment}</p>
 
             <button
               onClick={() => togglePayment(selectedOrder.id)}
-              className="mt-3 bg-green-500 text-white px-3 py-1 rounded"
+              className="mt-4 bg-green-500 text-white px-3 py-1 rounded w-full"
             >
               Toggle Pembayaran
             </button>
 
             <button
               onClick={() => setSelectedOrder(null)}
-              className="mt-2 block text-red-500"
+              className="mt-2 text-red-500 w-full"
             >
               Tutup
             </button>
