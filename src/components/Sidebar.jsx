@@ -16,18 +16,17 @@ export default function Sidebar() {
   // Logic class tetap sama, hanya styling warna disesuaikan dengan gambar
   const menuClass = ({ isActive }) =>
     `flex items-center rounded-xl p-3 space-x-4 transition-all duration-200
-        ${
-          isActive
-            ? "text-[#5D5FEF] bg-white font-bold shadow-lg"
-            : "text-white/70 hover:text-white hover:bg-white/10"
-        }`;
+        ${isActive
+      ? "text-[#5D5FEF] bg-white font-bold shadow-lg"
+      : "text-white/70 hover:text-white hover:bg-white/10"
+    }`;
 
   return (
     <div className="fixed top-0 left-0 h-screen w-72 flex flex-col bg-[#5D5FEF] p-6 text-white z-50 rounded-r-[2.5rem]">
       {/* Logo Section - Disesuaikan dengan gaya VENTES */}
       <div className="mb-10 flex items-center space-x-2 px-2">
         <div className="w-10 h-10 bg-orange-400 rounded-full flex items-center justify-center shadow-inner">
-           <div className="w-6 h-6 bg-white/20 rounded-full"></div>
+          <div className="w-6 h-6 bg-white/20 rounded-full"></div>
         </div>
         <div>
           <h1 className="text-2xl font-extrabold tracking-tight">CUCI GOSOK</h1>
@@ -91,23 +90,29 @@ export default function Sidebar() {
             <span className="text-sm">Riwayat</span>
           </NavLink>
         </li>
+        <li>
+          <NavLink id="menu-2" to="/Product" className={menuClass}>
+            <MdOutlineAssignment className="mr-4 text-xl" />
+            <span>Produk</span>
+          </NavLink>
+        </li>
       </ul>
 
       {/* Upgrade Card - Mirip di gambar (Hiasan) */}
       <div className="mt-10 bg-white rounded-3xl p-5 text-center relative overflow-hidden">
-         <div className="relative z-10">
-            <img 
-                src="https://cdn-icons-png.flaticon.com/512/1033/1033013.png" 
-                alt="rocket" 
-                className="w-12 h-12 mx-auto mb-2"
-            />
-            <p className="text-[#5D5FEF] text-xs font-medium">Want to upgrade?</p>
-            <button className="mt-2 bg-orange-400 text-white text-xs py-2 px-4 rounded-xl font-bold hover:bg-orange-500 transition">
-                Upgrade now
-            </button>
-         </div>
-         {/* Hiasan background kartu */}
-         <div className="absolute -bottom-2 -right-2 w-12 h-12 bg-[#5D5FEF]/5 rounded-full"></div>
+        <div className="relative z-10">
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/1033/1033013.png"
+            alt="rocket"
+            className="w-12 h-12 mx-auto mb-2"
+          />
+          <p className="text-[#5D5FEF] text-xs font-medium">Want to upgrade?</p>
+          <button className="mt-2 bg-orange-400 text-white text-xs py-2 px-4 rounded-xl font-bold hover:bg-orange-500 transition">
+            Upgrade now
+          </button>
+        </div>
+        {/* Hiasan background kartu */}
+        <div className="absolute -bottom-2 -right-2 w-12 h-12 bg-[#5D5FEF]/5 rounded-full"></div>
       </div>
 
       {/* Footer / Profile Section */}

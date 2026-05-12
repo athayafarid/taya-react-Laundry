@@ -1,0 +1,18 @@
+
+[
+  { "id": 1, "tittle": "Mesin Cuci Front Load 15kg", "code": "LND-001", "category": "Mesin", "brand": "LG", "price": 8500000, "stock": 4 },
+  { "id": 2, "tittle": "Mesin Pengering Gas 15kg", "code": "LND-002", "category": "Mesin", "brand": "Maytag", "price": 12500000, "stock": 2 },
+  { "id": 3, "tittle": "Setrika Uap Boiler 10 Liter", "code": "LND-003", "category": "Peralatan", "brand": "Maomoto", "price": 3200000, "stock": 5 },
+  { "id": 4, "tittle": "Timbangan Digital 30kg", "code": "LND-004", "category": "Peralatan", "brand": "Camry", "price": 450000, "stock": 10 },
+  { "id": 5, "tittle": "Deterjen Cair Premium 5L", "code": "CHM-005", "category": "Bahan Kimia", "brand": "KlinKlin", "price": 75000, "stock": 50 },
+  { "id": 6, "tittle": "Softener (Pelembut) 5L", "code": "CHM-006", "category": "Bahan Kimia", "brand": "Mawar", "price": 65000, "stock": 45 },
+  { "id": 7, "tittle": "Pelicin Pakaian 5L", "code": "CHM-007", "category": "Bahan Kimia", "brand": "Mawar", "price": 60000, "stock": 40 },
+  { "id": 8, "tittle": "Parfum Laundry Premium 1L", "code": "CHM-008", "category": "Bahan Kimia", "brand": "Snappy", "price": 85000, "stock": 30 },
+  { "id": 9, "tittle": "Penghilang Noda Membandel 1L", "code": "CHM-009", "category": "Bahan Kimia", "brand": "Vanish", "price": 45000, "stock": 25 },
+  { "id": 10, "tittle": "Plastik Packing Jinjing (1 Pack)", "code": "SPL-010", "category": "Perlengkapan", "brand": "Lokal", "price": 25000, "stock": 100 },
+  { "id": 11, "tittle": "Hanger Kawat (100 Pcs)", "code": "SPL-011", "category": "Perlengkapan", "brand": "Lokal", "price": 45000, "stock": 80 },
+  { "id": 12, "tittle": "Keranjang Laundry Besar", "code": "SPL-012", "category": "Perlengkapan", "brand": "Lion Star", "price": 85000, "stock": 20 },
+  { "id": 13, "tittle": "Tag Gun Label (Alat Tembak Label)", "code": "SPL-013", "category": "Perlengkapan", "brand": "Joyko", "price": 35000, "stock": 15 },
+  { "id": 14, "tittle": "Pita Label Kertas Anti Air (Roll)", "code": "SPL-014", "category": "Perlengkapan", "brand": "Lokal", "price": 15000, "stock": 60 },
+  { "id": 15, "tittle": "Buku Nota Laundry 3 Rangkap", "code": "SPL-015", "category": "Perlengkapan", "brand": "Paperline", "price": 12000, "stock": 40 }
+]
