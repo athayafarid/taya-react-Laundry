@@ -1,19 +1,17 @@
-import { MdOutlineDownloading } from "react-icons/md";
-import { BiMessageAltError } from "react-icons/bi";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-
+import { useNavigate, Link } from "react-router-dom";
+import { BiMessageAltError } from "react-icons/bi";
+import { MdOutlineDownloading } from "react-icons/md";
+import { supabase } from "../../lib/supabase"; 
 
 export default function Login() {
-    /* navigate, state & handleChange*/
     const navigate = useNavigate();
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [dataForm, setDataForm] = useState({
         email: "",
-        password: "",
+        password: ""
     });
 
     const handleChange = (evt) => {
@@ -24,107 +22,121 @@ export default function Login() {
         });
     };
 
-    /* process form */
-    const handleSubmit = async (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-
+        console.log("Tombol login diklik! Mencoba menyambung ke Supabase...", dataForm);
+        
         setLoading(true);
         setError("");
 
         try {
-            const response = await axios.post(
-                "https://dummyjson.com/user/login",
-                {
-                    username: dataForm.email,
-                    password: dataForm.password,
-                }
-            );
+            const { data, error: authError } = await supabase.auth.signInWithPassword({
+                email: dataForm.email,
+                password: dataForm.password,
+            });
 
-            // Jika status bukan 200, tampilkan pesan error
-            if (response.status !== 200) {
-                setError("Login gagal");
+            if (authError) {
+                console.error("Autentikasi Supabase gagal:", authError.message);
+                setError(authError.message || "Invalid credentials"); 
                 return;
             }
 
-            // Redirect ke dashboard jika login sukses
-            navigate("/");
+            console.log("Login sukses! Data user:", data);
+            navigate("/"); 
         } catch (err) {
-            if (err.response) {
-                setError(err.response.data.message || "Login gagal");
-            } else {
-                setError("Terjadi kesalahan");
-            }
+            console.error("Crash Jaringan/Sistem:", err);
+            setError("Terjadi kesalahan koneksi sistem.");
         } finally {
             setLoading(false);
         }
     };
 
-    /* error & loading status */
-    const errorInfo = error ? (
-        <div className="bg-red-200 mb-5 p-5 text-sm font-light text-gray-600 rounded flex items-center">
-            <BiMessageAltError className="text-red-600 me-2 text-lg" />
-            {error}
-        </div>
-    ) : null
-
-    const loadingInfo = loading ? (
-        <div className="bg-gray-200 mb-5 p-5 text-sm rounded flex items-center">
-            <MdOutlineDownloading className="me-2 animate-spin" />
-            Mohon Tunggu...
-        </div>
-    ) : null
-
     return (
-        <div>
-            <h2 className="text-2xl font-semibold text-gray-700 mb-6 text-center">
-                Welcome Back 👋
-            </h2>
+        <div className="min-h-screen bg-[#0B132B] flex items-center justify-center p-4">
+            <div className="bg-[#1C2541] p-8 rounded-[32px] shadow-2xl w-full max-w-md flex flex-col items-center border border-gray-800">
+                
+                <div className="flex flex-col items-center mb-6">
+                    <div className="flex items-center gap-2 mb-1">
+                        <div className="bg-amber-500 h-9 w-9 rounded-xl flex items-center justify-center font-bold text-white shadow-md">
+                            <span className="text-xl">O</span>
+                        </div>
+                        <h1 className="text-3xl font-black text-white tracking-wider">
+                            BILAS<span className="text-blue-400">.</span>
+                        </h1>
+                    </div>
+                    <p className="text-[10px] text-gray-400 tracking-widest uppercase font-semibold">
+                        Laundry Management System
+                    </p>
+                </div>
 
-            {error && (
-                <p className="text-red-500 text-sm mb-4 text-center">
-                    {error}
+                <h2 className="text-xl font-bold text-gray-300 mb-4">
+                    Welcome Back 👋
+                </h2>
+
+                {error && (
+                    <div className="bg-red-200/90 mb-4 p-3 text-xs font-medium text-red-800 rounded-xl flex items-center w-full">
+                        <BiMessageAltError className="text-red-600 me-2 text-base flex-shrink-0" />
+                        {error}
+                    </div>
+                )}
+
+                {loading && (
+                    <div className="bg-gray-700/50 mb-4 p-3 text-xs text-gray-300 rounded-xl flex items-center w-full">
+                        <MdOutlineDownloading className="me-2 animate-spin text-base text-blue-400" />
+                        Sedang memverifikasi akun...
+                    </div>
+                )}
+
+                {/* PASTIKAN ON SUBMIT BERADA DI TAG FORM */}
+                <form onSubmit={handleLogin} className="w-full">
+                    <div className="mb-4">
+                        <label className="block text-xs font-semibold text-gray-400 mb-1">
+                            Email
+                        </label>
+                        <input
+                            type="email"
+                            name="email"
+                            value={dataForm.email}
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 border border-gray-700 rounded-xl bg-[#131A30] text-white focus:outline-none focus:ring-2 focus:ring-green-500 text-sm"
+                            placeholder="admin@gmail.com"
+                            required
+                        />
+                    </div>
+
+                    <div className="mb-6">
+                        <label className="block text-xs font-semibold text-gray-400 mb-1">
+                            Password
+                        </label>
+                        <input
+                            type="password"
+                            name="password"
+                            value={dataForm.password}
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 border border-gray-700 rounded-xl bg-[#131A30] text-white focus:outline-none focus:ring-2 focus:ring-green-500 text-sm"
+                            placeholder="********"
+                            required
+                        />
+                    </div>
+
+                    {/* TYPE BUTTON HARUS SUBMIT */}
+                    <button
+                        type="submit"
+                        disabled={loading}
+                        className="w-full bg-[#00E676] hover:bg-[#00C853] text-white font-bold py-3 rounded-xl transition duration-200 disabled:bg-gray-600 cursor-pointer text-sm shadow-lg shadow-green-500/20"
+                    >
+                        {loading ? "Logging in..." : "Login"}
+                    </button>
+                </form>
+
+                <p className="text-xs text-gray-400 text-center mt-4">
+                    Belum punya akses?{" "}
+                    <Link to="/register" className="text-[#00E676] hover:underline font-semibold">
+                        Daftar Akun Baru
+                    </Link>
                 </p>
-            )}
-            {errorInfo}
-
-            {loadingInfo}
-            <form onSubmit={handleSubmit}>
-                <div className="mb-5">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Email
-                    </label>
-                    <input
-                        type="text"
-                        name="email"
-                        value={dataForm.email}
-                        onChange={handleChange}
-                        className="w-full px-4 py-2 border rounded-lg"
-                        placeholder="kminchelle"
-                    />
-                </div>
-
-                <div className="mb-6">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Password
-                    </label>
-                    <input
-                        type="password"
-                        name="password"
-                        value={dataForm.password}
-                        onChange={handleChange}
-                        className="w-full px-4 py-2 border rounded-lg"
-                        placeholder="0lelplR"
-                    />
-                </div>
-
-                <button
-                    type="submit"
-                    disabled={loading}
-                    className="w-full bg-green-500 text-white py-2 rounded-lg"
-                >
-                    {loading ? "Loading..." : "Login"}
-                </button>
-            </form>
+                
+            </div>
         </div>
     );
 }

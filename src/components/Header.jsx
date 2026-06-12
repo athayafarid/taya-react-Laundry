@@ -2,9 +2,25 @@ import { useState } from "react";
 import { FaBell, FaSearch } from "react-icons/fa";
 import { FcAreaChart } from "react-icons/fc";
 import { SlSettings } from "react-icons/sl";
+import { useNavigate } from "react-router-dom"; // 1. Import useNavigate untuk pindah halaman
 
 export default function Header() {
     const [isSearchOpen, setIsSearchOpen] = useState(false);
+    const navigate = useNavigate(); // 2. Inisialisasi fungsi navigate
+
+    // 3. Buat fungsi untuk menangani aksi logout
+    const handleLogout = () => {
+        const confirmLogout = window.confirm("Apakah kamu yakin ingin keluar dari dashboard Sedap.?");
+        
+        if (confirmLogout) {
+            // Hapus data token/sesi login di browser jika sebelumnya kamu menyimpannya
+            localStorage.removeItem("isLoggedIn"); 
+            sessionStorage.clear();
+
+            // Arahkan admin kembali ke halaman login utama
+            navigate("/login");
+        }
+    };
 
     return (
         <div id="header-container" className="flex items-center justify-between bg-white px-10 py-4 shadow-sm relative">
@@ -86,7 +102,14 @@ export default function Header() {
                                 <p className="text-[10px] text-gray-400 mb-4">Super Admin - Sedap Resto</p>
                                 <div className="space-y-2">
                                     <button className="w-full py-2 bg-gray-50 rounded-lg text-xs font-semibold text-gray-600 hover:bg-green-50 hover:text-green-600 transition-colors">Edit Profile</button>
-                                    <button className="w-full py-2 bg-red-50 rounded-lg text-xs font-semibold text-red-500 hover:bg-red-100 transition-colors">Logout</button>
+                                    
+                                    {/* 4. Sambungkan fungsi handleLogout ke property onClick tombol ini */}
+                                    <button 
+                                        onClick={handleLogout}
+                                        className="w-full py-2 bg-red-50 rounded-lg text-xs font-semibold text-red-500 hover:bg-red-100 transition-colors cursor-pointer"
+                                    >
+                                        Logout
+                                    </button>
                                 </div>
                             </div>
                         </div>

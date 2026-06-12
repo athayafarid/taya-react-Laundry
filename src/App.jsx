@@ -28,8 +28,12 @@ function App() {
   const MainLayout = React.lazy(() => import("./layouts/MainLayout"));
   const AuthLayout = React.lazy(() => import("./layouts/AuthLayout"));
 
-  const Product = React.lazy(() => import("./pages/Product"))
-  const ProductDetail = React.lazy(() => import("./pages/ProductDetail"))
+  const Product = React.lazy(() => import("./pages/Product"));
+  const ProductDetail = React.lazy(() => import("./pages/ProductDetail"));
+
+  // 🌐 GUEST PORTAL
+  const GuestPage = React.lazy(() => import("./pages/GuestPage"));
+
   return (
     <Suspense fallback={<Loading />}>
       <Routes>
@@ -60,6 +64,9 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/forgot" element={<Forgot />} />
         </Route>
+
+        {/* 🌐 GUEST ROUTE (Berdiri sendiri tanpa Layout Admin / Auth) */}
+        <Route path="/guest" element={<GuestPage />} />
       </Routes>
     </Suspense>
   );
