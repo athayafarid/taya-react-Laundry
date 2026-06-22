@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import PageHeader from "../components/PageHeader";
 import { Button, Card, Input, Badge, Table } from "../components/Anatomy";
+import { supabase } from "../lib/supabase";
 
 export default function AddOrder() {
 
@@ -54,37 +55,55 @@ export default function AddOrder() {
         });
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+   const handleSubmit = async (e) => {
+  e.preventDefault();
 
-        const newOrder = {
-            id: form.id || "TRX" + Date.now(),
-            date: form.date,
-            customer: selectedCustomerDetail?.name,
-            phone: selectedCustomerDetail?.phone,
-            service: services.find(s => s.id.toString() === selectedService)?.name,
-            price,
-            weight,
-            total,
-            status: form.status || "Order Diterima",
-            payment: "Belum Bayar",
-            steps: ["Order Diterima", "Diproses", "Selesai", "Diambil"],
-            currentStep: 0,
-        };
+  const newOrder = {
+    id: form.id || `TRX-${Date.now()}`,
+    date: form.date,
+    customer: selectedCustomerDetail?.name,
+    phone: selectedCustomerDetail?.phone,
+    service:
+      services.find(
+        (s) => s.id.toString() === selectedService
+      )?.name,
+    price,
+    weight,
+    total,
+    status: form.status || "Order Diterima",
+    payment: "Belum Bayar",
+  };
 
-        const existing = JSON.parse(localStorage.getItem("orders")) || [];
-        localStorage.setItem("orders", JSON.stringify([...existing, newOrder]));
+  try {
+    const { error } = await supabase
+      .from("orders")
+      .insert([newOrder]);
 
-        alert("Order berhasil disimpan!");
+    if (error) {
+      console.log(error);
+      alert("Gagal menyimpan order.");
+      return;
+    }
 
-        // reset
-        setForm({ id: "", date: "", status: "" });
-        setSelectedService("");
-        setSelectedCustomer("");
-        setSelectedCustomerDetail(null);
-        setPrice(0);
-        setWeight(1);
-    };
+    alert("Order berhasil disimpan!");
+
+    // reset form
+    setForm({
+      id: "",
+      date: "",
+      status: "",
+    });
+
+    setSelectedService("");
+    setSelectedCustomer("");
+    setSelectedCustomerDetail(null);
+    setPrice(0);
+    setWeight(1);
+  } catch (err) {
+    console.error(err);
+    alert("Terjadi kesalahan sistem.");
+  }
+};
 
     return (
         <div className="p-8">
