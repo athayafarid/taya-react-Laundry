@@ -58,7 +58,7 @@ export default function Login() {
       }
 
       console.log("Login sukses! Data user:", data);
-      navigate("dashboard");
+      navigate("/dashboard");
     } catch (err) {
       console.error("Crash Jaringan/Sistem:", err);
       setError("Terjadi kesalahan koneksi sistem.");
