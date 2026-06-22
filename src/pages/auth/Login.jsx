@@ -24,10 +24,6 @@ export default function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log(
-      "Tombol login diklik! Mencoba menyambung ke Supabase...",
-      dataForm,
-    );
 
     setLoading(true);
     setError("");
@@ -40,6 +36,11 @@ export default function Login() {
         },
       );
 
+      if (authError) {
+        setError(authError.message);
+        return;
+      }
+
       const { data: profile } = await supabase
         .from("profiles")
         .select("role")
@@ -51,16 +52,11 @@ export default function Login() {
         setError("Akun ini bukan Admin.");
         return;
       }
-      if (authError) {
-        console.error("Autentikasi Supabase gagal:", authError.message);
-        setError(authError.message || "Invalid credentials");
-        return;
-      }
 
-      console.log("Login sukses! Data user:", data);
+      console.log("Login Admin berhasil");
       navigate("/dashboard");
     } catch (err) {
-      console.error("Crash Jaringan/Sistem:", err);
+      console.error(err);
       setError("Terjadi kesalahan koneksi sistem.");
     } finally {
       setLoading(false);

@@ -36,7 +36,7 @@ export default function Sidebar() {
       {/* Menu - Semua fitur tetap ada */}
       <ul className="space-y-1">
         <li>
-          <NavLink to="/" className={menuClass}>
+          <NavLink to="/dashboard" className={menuClass}>
             <MdDashboard size={22} />
             <span className="text-sm">Dashboard</span>
           </NavLink>
