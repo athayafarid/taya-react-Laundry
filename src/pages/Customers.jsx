@@ -1,6 +1,7 @@
 import PageHeader from "../components/PageHeader";
 import { useEffect, useState } from "react";
 import { Button, Card, Input, Badge, Table } from "../components/Anatomy";
+import { supabase } from "../lib/supabase";
 
 // DATA AWAL
 const initialCustomers = [
@@ -33,15 +34,22 @@ export default function Customers() {
   const [customers, setCustomers] = useState([]);
 
   useEffect(() => {
-    const existing = JSON.parse(localStorage.getItem("customers"));
+  getCustomers();
+}, []);
 
-    if (!existing || existing.length === 0) {
-      localStorage.setItem("customers", JSON.stringify(initialCustomers));
-      setCustomers(initialCustomers);
-    } else {
-      setCustomers(existing);
-    }
-  }, []);
+const getCustomers = async () => {
+  const { data, error } = await supabase
+    .from("customers")
+    .select("*")
+    .order("id", { ascending: false });
+
+  if (error) {
+    console.log(error);
+    return;
+  }
+
+  setCustomers(data);
+};
 
   return (
     <div className="p-8">

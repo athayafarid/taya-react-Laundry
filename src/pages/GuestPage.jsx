@@ -14,12 +14,29 @@ export default function GuestPage() {
   const stepsList = ["Diterima", "Dicuci", "Disetrika", "Selesai"];
 
   // Daftar harga statis sesuai data sistem BILAS
-  const servicesPriceList = [
-    { name: "cuci", price: "Rp 5000" },
-    { name: "sepatu", price: "Rp 30000" },
-    { name: "spray", price: "Rp 10000" },
-    { name: "cuci gosok", price: "Rp 7000" },
-  ];
+ // Daftar layanan untuk card
+const servicesPriceList = [
+  {
+    name: "Cuci",
+    price: "Rp 5000",
+    image: "/img/cuci.png",
+  },
+  {
+    name: "Sepatu",
+    price: "Rp 30000",
+    image: "/img/sepatu.png",
+  },
+  {
+    name: "Spray",
+    price: "Rp 10000",
+    image: "/img/spray.png",
+  },
+  {
+    name: "Cuci Gosok",
+    price: "Rp 7000",
+    image: "/img/gosok.png",
+  },
+];
 
   // Fungsi otomatis untuk mencocokkan status teks dari admin ke bulatan progress bar
   const getCurrentStepIndex = (status) => {
@@ -258,29 +275,64 @@ export default function GuestPage() {
           </div>
 
           <div className="overflow-hidden rounded-xl border border-gray-800/80 bg-[#131A30]/60">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="bg-[#1C2541] border-b border-gray-800 text-gray-400 text-xs uppercase font-bold tracking-wider">
-                  <th className="px-6 py-3.5">Layanan</th>
-                  <th className="px-6 py-3.5 text-right">Harga / Kg</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-800/60 text-sm">
-                {servicesPriceList.map((service, index) => (
-                  <tr
-                    key={index}
-                    className="hover:bg-[#1C2541]/30 transition duration-150 group"
-                  >
-                    <td className="px-6 py-4 font-medium text-gray-300 capitalize group-hover:text-[#00E676] transition-colors">
-                      {service.name}
-                    </td>
-                    <td className="px-6 py-4 text-right font-bold text-gray-100 group-hover:text-white">
-                      {service.price}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+  {servicesPriceList.map((service, index) => (
+    <div
+      key={index}
+      className="
+        relative
+        bg-[#131A30]
+        border border-gray-800
+        rounded-[30px]
+        p-6
+        text-center
+        overflow-hidden
+        hover:-translate-y-3
+        hover:border-[#00E676]
+        transition-all
+        duration-300
+        group
+      "
+    >
+      {/* Glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-28 bg-[#00E676]/10 blur-3xl rounded-full group-hover:bg-[#00E676]/20 transition-all"></div>
+
+      {/* Gambar */}
+      <div className="relative flex justify-center mb-6">
+        <img
+          src={service.image}
+          alt={service.name}
+          className="
+            w-28
+            h-28
+            object-contain
+            group-hover:scale-110
+            transition-transform
+            duration-300
+          "
+        />
+      </div>
+
+      {/* Nama */}
+      <h3 className="text-xl font-bold text-white mb-3">
+        {service.name}
+      </h3>
+
+      <div className="w-14 h-1 bg-[#00E676] mx-auto rounded-full mb-5"></div>
+
+      <p className="text-gray-500 text-xs uppercase tracking-widest mb-3">
+        Harga / Kg
+      </p>
+
+      {/* Harga */}
+      <div className="bg-[#1C2541] rounded-2xl py-4 border border-gray-800">
+        <p className="text-2xl font-black text-[#00E676]">
+          {service.price}
+        </p>
+      </div>
+    </div>
+  ))}
+</div>
           </div>
         </div>
       </main>

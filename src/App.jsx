@@ -47,6 +47,7 @@ function App() {
 
   // 🌐 GUEST PORTAL
   const GuestPage = React.lazy(() => import("./pages/GuestPage"));
+  const LandingPage = React.lazy(() => import("./pages/LandingPage"));
 
   return (
     <Suspense fallback={<Loading />}>
@@ -54,8 +55,6 @@ function App() {
 
         {/* AUTH */}
         <Route element={<AuthLayout />}>
-          {/* Halaman pertama buka Login */}
-          <Route path="/" element={<Login />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot" element={<Forgot />} />
@@ -82,7 +81,9 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Route>
 
-        {/* GUEST */}
+        {/* LANDING & GUEST */}
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/laundrygo" element={<LandingPage />} />
         <Route path="/guest" element={<GuestPage />} />
 
         {/* MEMBER */}
