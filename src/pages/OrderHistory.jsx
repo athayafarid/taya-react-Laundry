@@ -1,17 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import PageHeader from "../components/PageHeader";
 
 export default function OrderHistory() {
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState(
+    () => JSON.parse(localStorage.getItem("orders")) || []
+  );
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
   const [selectedOrder, setSelectedOrder] = useState(null);
-
-  // 🔥 LOAD DATA REAL
-  useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("orders")) || [];
-    setOrders(data);
-  }, []);
 
   const formatRupiah = (angka) =>
     new Intl.NumberFormat("id-ID").format(angka);

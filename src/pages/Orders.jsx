@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import PageHeader from "../components/PageHeader";
 import { supabase } from "../lib/supabase";
 import { 
@@ -19,11 +19,30 @@ export default function Orders() {
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState([]);
 
-  useEffect(() => {
-    fetchOrders();
+  const generateNotifications = useCallback((orderList) => {
+    const list = [];
+    orderList.slice(0, 10).forEach((o) => {
+      if (o.status === "Selesai") {
+        list.push({
+          id: `notif-ready-${o.id}`,
+          message: `Cucian #${o.id} milik ${o.customer} sudah Selesai & siap diambil!`,
+          time: "Baru saja",
+          icon: <MdCheckCircle className="text-green-500" />
+        });
+      }
+      if (o.payment === "Belum Bayar") {
+        list.push({
+          id: `notif-pay-${o.id}`,
+          message: `Pesanan #${o.id} belum menyelesaikan pembayaran (Rp ${o.total.toLocaleString("id-ID")}).`,
+          time: "Perlu konfirmasi",
+          icon: <MdPayment className="text-red-500" />
+        });
+      }
+    });
+    setNotifications(list.slice(0, 5));
   }, []);
 
-  const fetchOrders = async () => {
+  const fetchOrders = useCallback(async () => {
     setLoading(true);
     try {
       const { data, error } = await supabase
@@ -41,33 +60,11 @@ export default function Orders() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [generateNotifications]);
 
-  // Generate notifikasi dinamis dari data order
-  const generateNotifications = (orderList) => {
-    const list = [];
-    orderList.slice(0, 10).forEach((o) => {
-      // 1. Notif order siap
-      if (o.status === "Selesai") {
-        list.push({
-          id: `notif-ready-${o.id}`,
-          message: `Cucian #${o.id} milik ${o.customer} sudah Selesai & siap diambil!`,
-          time: "Baru saja",
-          icon: <MdCheckCircle className="text-green-500" />
-        });
-      }
-      // 2. Notif belum bayar
-      if (o.payment === "Belum Bayar") {
-        list.push({
-          id: `notif-pay-${o.id}`,
-          message: `Pesanan #${o.id} belum menyelesaikan pembayaran (Rp ${o.total.toLocaleString("id-ID")}).`,
-          time: "Perlu konfirmasi",
-          icon: <MdPayment className="text-red-500" />
-        });
-      }
-    });
-    setNotifications(list.slice(0, 5));
-  };
+  useEffect(() => {
+    fetchOrders();
+  }, [fetchOrders]);
 
   const handleStatusChange = async (orderId, newStatus) => {
     try {

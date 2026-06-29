@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import PageHeader from "../components/PageHeader";
 import { MdAdd, MdDelete, MdLocalLaundryService } from "react-icons/md";
 
@@ -11,18 +11,16 @@ const defaultServices = [
 ];
 
 export default function Services() {
-  const [services, setServices] = useState([]);
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-
-  useEffect(() => {
+  const [services, setServices] = useState(() => {
     let data = JSON.parse(localStorage.getItem("services")) || [];
     if (data.length === 0) {
       data = defaultServices;
       localStorage.setItem("services", JSON.stringify(defaultServices));
     }
-    setServices(data);
-  }, []);
+    return data;
+  });
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
 
   const addService = (e) => {
     e.preventDefault();

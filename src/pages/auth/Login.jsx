@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { BiMessageAltError } from "react-icons/bi";
 import { MdOutlineDownloading } from "react-icons/md";
 import { supabase } from "../../lib/supabase";
+import AuthSplitLayout from "../../components/AuthSplitLayout";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -64,8 +65,14 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50/50 via-white to-orange-50/30 flex items-center justify-center p-4 font-sans">
-      <div className="bg-white p-8 rounded-[32px] shadow-xl w-full max-w-md flex flex-col items-center border border-slate-100">
+    <AuthSplitLayout
+      eyebrow="Admin Login"
+      title="Masuk ke pusat operasional LaundryGo."
+      description="Pantau order masuk, status cucian, pelanggan, layanan, dan laporan bisnis dari satu dashboard admin yang lebih profesional."
+      image="/img/cuci.png"
+      imageAlt="Ilustrasi layanan laundry"
+    >
+      <div className="w-full rounded-[32px] border border-slate-100 bg-white p-7 shadow-xl shadow-slate-200/80 sm:p-8">
         <div className="flex flex-col items-center mb-6">
           <div className="flex items-center gap-2 mb-1">
             <div className="bg-blue-600 h-9 w-9 rounded-xl flex items-center justify-center font-bold text-white shadow-lg shadow-blue-500/20">
@@ -80,9 +87,12 @@ export default function Login() {
           </p>
         </div>
 
-        <h2 className="text-xl font-black text-slate-800 mb-6">
-          Welcome Back 👋
-        </h2>
+        <div className="mb-6 text-center">
+          <h2 className="text-2xl font-black text-slate-900">Login Admin</h2>
+          <p className="mt-2 text-sm font-semibold text-slate-500">
+            Gunakan akun admin untuk masuk ke dashboard operasional.
+          </p>
+        </div>
 
         {error && (
           <div className="bg-red-50 border border-red-100 mb-4 p-3.5 text-xs font-semibold text-red-700 rounded-xl flex items-center w-full">
@@ -134,7 +144,7 @@ export default function Login() {
             disabled={loading}
             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-extrabold py-3.5 rounded-xl transition duration-200 disabled:bg-slate-300 cursor-pointer text-sm shadow-lg shadow-blue-500/10"
           >
-            {loading ? "Logging in..." : "Login"}
+            {loading ? "Memproses..." : "Masuk Dashboard"}
           </button>
           
           <Link
@@ -162,6 +172,6 @@ export default function Login() {
           ← Kembali ke Landing Page
         </Link>
       </div>
-    </div>
+    </AuthSplitLayout>
   );
 }

@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function Notifications() {
-  const [notifications, setNotifications] = useState([]);
-
-  useEffect(() => {
+  const [notifications] = useState(() => {
     const orders = JSON.parse(localStorage.getItem("orders")) || [];
 
     const notif = orders.map((o) => ({
@@ -12,8 +10,8 @@ export default function Notifications() {
       time: new Date().toLocaleString(),
     }));
 
-    setNotifications(notif.reverse());
-  }, []);
+    return notif.reverse();
+  });
 
   return (
     <div className="p-6">

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
 
@@ -26,11 +26,7 @@ export default function MemberDashboard() {
   const [loading, setLoading] = useState(true);
   const [member, setMember] = useState(null);
 
-  useEffect(() => {
-    getMember();
-  }, []);
-
-  const getMember = async () => {
+  const getMember = useCallback(async () => {
     try {
       // Ambil user login
       const {
@@ -57,7 +53,11 @@ export default function MemberDashboard() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [navigate]);
+
+  useEffect(() => {
+    getMember();
+  }, [getMember]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();

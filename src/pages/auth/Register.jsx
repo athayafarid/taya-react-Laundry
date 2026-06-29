@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { BiMessageAltError } from "react-icons/bi";
 import { MdOutlineDownloading } from "react-icons/md";
 import { supabase } from "../../lib/supabase"; 
+import AuthSplitLayout from "../../components/AuthSplitLayout";
 
 export default function Register() {
     const navigate = useNavigate();
@@ -67,8 +68,14 @@ export default function Register() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50/50 via-white to-orange-50/30 flex items-center justify-center p-4 font-sans">
-            <div className="bg-white p-8 rounded-[32px] shadow-xl w-full max-w-md flex flex-col items-center border border-slate-100">
+        <AuthSplitLayout
+            eyebrow="Admin Register"
+            title="Siapkan akses admin untuk mengelola outlet."
+            description="Buat akun admin LaundryGo untuk mulai mengatur layanan, transaksi, dan pelanggan dengan proses kerja yang lebih modern."
+            image="/img/spray.png"
+            imageAlt="Peralatan laundry"
+        >
+            <div className="w-full rounded-[32px] border border-slate-100 bg-white p-7 shadow-xl shadow-slate-200/80 sm:p-8">
                 
                 <div className="flex flex-col items-center mb-6">
                     <div className="flex items-center gap-2 mb-1">
@@ -84,9 +91,14 @@ export default function Register() {
                     </p>
                 </div>
 
-                <h2 className="text-xl font-black text-slate-800 mb-6">
-                    Create Your Account ✨
-                </h2>
+                <div className="mb-6 text-center">
+                    <h2 className="text-2xl font-black text-slate-900">
+                        Register Admin
+                    </h2>
+                    <p className="mt-2 text-sm font-semibold text-slate-500">
+                        Daftarkan akun untuk akses dashboard pengelolaan laundry.
+                    </p>
+                </div>
 
                 {success && (
                     <div className="bg-green-50 border border-green-100 mb-4 p-3.5 text-xs font-semibold text-green-700 rounded-xl w-full">
@@ -159,7 +171,7 @@ export default function Register() {
                         disabled={loading}
                         className="w-full bg-blue-600 hover:bg-blue-700 text-white font-extrabold py-3.5 rounded-xl transition duration-200 disabled:bg-slate-300 cursor-pointer text-sm shadow-lg shadow-blue-500/10"
                     >
-                        {loading ? "Registering..." : "Register"}
+                        {loading ? "Mendaftarkan..." : "Buat Akun Admin"}
                     </button>
                 </form>
 
@@ -178,6 +190,6 @@ export default function Register() {
                 </Link>
                 
             </div>
-        </div>
+        </AuthSplitLayout>
     );
 }

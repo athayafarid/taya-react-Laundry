@@ -1,23 +1,11 @@
-import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 // Sesuaikan path import ini dengan lokasi file JSON produk Anda
 import productData from '../data/products.json';
 
 export default function ProductDetail() {
     const { id } = useParams();
-    const [product, setProduct] = useState(null);
-    const [error, setError] = useState(null);
-
-    useEffect(() => {
-        // Mencari data produk dari file JSON lokal berdasarkan ID
-        const foundProduct = productData.find(p => p.id === parseInt(id));
-
-        if (foundProduct) {
-            setProduct(foundProduct);
-        } else {
-            setError("Data produk tidak ditemukan.");
-        }
-    }, [id]);
+    const product = productData.find(p => p.id === parseInt(id));
+    const error = product ? null : "Data produk tidak ditemukan.";
 
     // Fungsi tambahan untuk memformat angka menjadi format Rupiah yang rapi
     const formatRupiah = (number) => {

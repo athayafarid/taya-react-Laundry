@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { BiMessageAltError } from "react-icons/bi";
 import { MdOutlineDownloading } from "react-icons/md";
 import { supabase } from "../../lib/supabase";
+import AuthSplitLayout from "../../components/AuthSplitLayout";
 
 export default function MemberRegister() {
   const navigate = useNavigate();
@@ -103,10 +104,24 @@ export default function MemberRegister() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50/50 via-white to-orange-50/30 flex items-center justify-center p-4 font-sans">
-      <div className="bg-white p-8 rounded-[32px] shadow-xl w-full max-w-lg border border-slate-100">
+    <AuthSplitLayout
+      eyebrow="Member Register"
+      title="Jadi member dan pantau cucian dengan mudah."
+      description="Member LaundryGo bisa menyimpan profil, mengumpulkan poin, dan menikmati pengalaman laundry yang lebih praktis."
+      image="/img/gosok.png"
+      imageAlt="Layanan setrika laundry"
+    >
+      <div className="w-full rounded-[32px] border border-slate-100 bg-white p-7 shadow-xl shadow-slate-200/80 sm:max-w-lg sm:p-8">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-black text-slate-900">Daftar Member</h1>
+          <div className="mb-4 flex items-center justify-center gap-2">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-xl font-bold text-white shadow-lg shadow-blue-500/20">
+              L
+            </div>
+            <h1 className="text-3xl font-black tracking-tight text-slate-900">
+              Laundry<span className="text-blue-600">Go</span>
+            </h1>
+          </div>
+          <h2 className="text-2xl font-black text-slate-900">Daftar Member</h2>
           <p className="text-slate-500 text-sm mt-2">
             Bergabung sebagai member LaundryGo
           </p>
@@ -216,7 +231,7 @@ export default function MemberRegister() {
             disabled={loading}
             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-extrabold py-3.5 rounded-xl transition duration-200 disabled:bg-slate-300 cursor-pointer text-sm shadow-lg shadow-blue-500/10 mt-2"
           >
-            {loading ? "Registering..." : "Daftar Menjadi Member"}
+            {loading ? "Mendaftarkan..." : "Daftar Menjadi Member"}
           </button>
         </form>
 
@@ -237,6 +252,6 @@ export default function MemberRegister() {
           ← Kembali ke Landing Page
         </Link>
       </div>
-    </div>
+    </AuthSplitLayout>
   );
 }
