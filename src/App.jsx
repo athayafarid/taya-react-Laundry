@@ -54,11 +54,9 @@ function App() {
       <Routes>
 
         {/* AUTH */}
-        <Route element={<AuthLayout />}>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/forgot" element={<Forgot />} />
-        </Route>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/forgot" element={<Forgot />} />
 
         {/* MAIN APP (ADMIN) */}
         <Route element={<MainLayout />}>
@@ -72,11 +70,8 @@ function App() {
           <Route path="/add-order" element={<AddOrder />} />
           <Route path="/add-customer" element={<AddCustomer />} />
 
-          {/* FITUR */}
           <Route path="/tracking" element={<Tracking />} />
           <Route path="/services" element={<Services />} />
-          <Route path="/notifications" element={<Notifications />} />
-          <Route path="/order-history" element={<OrderHistory />} />
 
           <Route path="*" element={<NotFound />} />
         </Route>

@@ -74,126 +74,126 @@ export default function MemberLogin() {
   };
 
   return (
-    <div className="min-h-screen bg-[#07111F] text-white">
+    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans antialiased">
       {/* Header */}
-      <div className="border-b border-slate-800">
-        <div className="max-w-7xl mx-auto px-8 py-6 flex justify-between items-center">
-          <div>
-            <h1 className="text-4xl font-black tracking-wider">BILAS</h1>
-            <p className="text-green-400 text-sm tracking-[5px]">LAUNDRY</p>
+      <div className="border-b border-slate-100 bg-white/80 backdrop-blur-md sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+          <div className="flex items-center gap-2">
+            <div className="h-9 w-9 bg-blue-600 rounded-xl flex items-center justify-center font-bold text-white shadow-lg shadow-blue-500/20">
+              <span className="text-lg">L</span>
+            </div>
+            <div>
+              <h1 className="text-xl font-black text-slate-900 tracking-tight">
+                Laundry<span className="text-blue-600">Go</span>
+              </h1>
+            </div>
           </div>
 
           <Link
-            to="/guest"
-            className="flex items-center gap-2 text-slate-300 hover:text-green-400 transition"
+            to="/"
+            className="flex items-center gap-1.5 text-slate-600 hover:text-blue-600 font-bold transition text-sm"
           >
             <FiArrowLeft />
-            Kembali ke Beranda
+            Kembali ke Landing Page
           </Link>
         </div>
       </div>
 
       {/* Content */}
-      <div className="max-w-7xl mx-auto px-8 py-14">
-        <div className="grid lg:grid-cols-2 gap-10">
+      <div className="max-w-7xl mx-auto px-6 py-12">
+        <div className="grid lg:grid-cols-2 gap-10 items-stretch">
           {/* LEFT */}
-          <div className="rounded-[40px] p-10 bg-gradient-to-br from-[#071a2c] via-[#07111f] to-[#092c25] border border-slate-800 relative overflow-hidden">
-            <div className="inline-flex bg-green-500/20 text-green-400 px-5 py-2 rounded-full text-sm font-semibold mb-8">
-              #1 Laundry Terpercaya
-            </div>
-
-            <h1 className="text-5xl font-black leading-tight">
-              Selamat Datang
-              <br />
-              <span className="text-green-400">Kembali!</span>
-            </h1>
-
-            <p className="text-slate-400 mt-6 text-lg leading-8">
-              Masuk ke akun member Anda dan nikmati layanan laundry terbaik
-              dengan lebih mudah.
-            </p>
-
-            <div className="space-y-8 mt-12">
-              <div className="flex gap-5">
-                <div className="h-16 w-16 rounded-2xl bg-slate-800 flex items-center justify-center text-green-400 text-2xl">
-                  <FiAward />
-                </div>
-
-                <div>
-                  <h3 className="font-bold text-xl">Kumpulkan Poin</h3>
-
-                  <p className="text-slate-400 mt-2">
-                    Setiap transaksi mendapatkan reward point yang dapat ditukar
-                    dengan promo menarik.
-                  </p>
-                </div>
+          <div className="rounded-[32px] p-8 lg:p-10 bg-gradient-to-br from-blue-50/50 via-white to-orange-50/30 border border-slate-100 shadow-sm flex flex-col justify-between">
+            <div>
+              <div className="inline-flex bg-blue-50 text-blue-700 border border-blue-100 px-4 py-1.5 rounded-full text-xs font-bold mb-8 uppercase tracking-wider">
+                #1 Laundry Terpercaya
               </div>
 
-              <div className="flex gap-5">
-                <div className="h-16 w-16 rounded-2xl bg-slate-800 flex items-center justify-center text-green-400 text-2xl">
-                  <FiTruck />
+              <h1 className="text-3.5xl lg:text-4.5xl font-black text-slate-900 leading-tight">
+                Selamat Datang
+                <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Kembali!</span>
+              </h1>
+
+              <p className="text-slate-600 mt-4 text-sm sm:text-base leading-relaxed">
+                Masuk ke akun member Anda dan nikmati layanan laundry terbaik dengan lebih mudah.
+              </p>
+
+              <div className="space-y-6 mt-10">
+                <div className="flex gap-4 items-start">
+                  <div className="h-12 w-12 rounded-xl bg-white border border-slate-100 shadow-sm flex items-center justify-center text-blue-600 text-xl shrink-0">
+                    <FiAward />
+                  </div>
+
+                  <div>
+                    <h3 className="font-bold text-slate-900 text-base">Kumpulkan Poin</h3>
+                    <p className="text-slate-500 mt-1 text-xs leading-relaxed">
+                      Setiap transaksi mendapatkan reward point yang dapat ditukar dengan promo menarik.
+                    </p>
+                  </div>
                 </div>
 
-                <div>
-                  <h3 className="font-bold text-xl">Lacak Pesanan</h3>
+                <div className="flex gap-4 items-start">
+                  <div className="h-12 w-12 rounded-xl bg-white border border-slate-100 shadow-sm flex items-center justify-center text-blue-600 text-xl shrink-0">
+                    <FiTruck />
+                  </div>
 
-                  <p className="text-slate-400 mt-2">
-                    Pantau status laundry Anda secara real-time kapan saja.
-                  </p>
+                  <div>
+                    <h3 className="font-bold text-slate-900 text-base">Lacak Pesanan</h3>
+                    <p className="text-slate-500 mt-1 text-xs leading-relaxed">
+                      Pantau status laundry Anda secara real-time kapan saja.
+                    </p>
+                  </div>
                 </div>
-              </div>
 
-              <div className="flex gap-5">
-                <div className="h-16 w-16 rounded-2xl bg-slate-800 flex items-center justify-center text-green-400 text-2xl">
-                  <FiGift />
-                </div>
+                <div className="flex gap-4 items-start">
+                  <div className="h-12 w-12 rounded-xl bg-white border border-slate-100 shadow-sm flex items-center justify-center text-blue-600 text-xl shrink-0">
+                    <FiGift />
+                  </div>
 
-                <div>
-                  <h3 className="font-bold text-xl">Promo Eksklusif</h3>
-
-                  <p className="text-slate-400 mt-2">
-                    Dapatkan berbagai promo khusus bagi member BILAS Laundry.
-                  </p>
+                  <div>
+                    <h3 className="font-bold text-slate-900 text-base">Promo Eksklusif</h3>
+                    <p className="text-slate-500 mt-1 text-xs leading-relaxed">
+                      Dapatkan berbagai promo khusus bagi member LaundryGo.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
           {/* RIGHT */}
-          <div className="rounded-[40px] p-10 bg-[#091423] border border-slate-800 flex flex-col justify-center">
+          <div className="rounded-[32px] p-8 lg:p-10 bg-white border border-slate-100 shadow-xl flex flex-col justify-center">
             <div className="text-center">
-              <div className="h-28 w-28 rounded-full border border-green-500/40 bg-green-500/10 mx-auto flex items-center justify-center text-green-400 text-5xl shadow-[0_0_60px_rgba(34,197,94,0.25)]">
+              <div className="h-20 w-20 rounded-full border border-blue-100 bg-blue-50 mx-auto flex items-center justify-center text-blue-600 text-3xl shadow-inner">
                 🔒
               </div>
 
-              <h1 className="text-5xl font-black mt-8">Login Member</h1>
-
-              <p className="text-slate-400 mt-4 text-lg">
+              <h1 className="text-3xl font-black text-slate-900 mt-6">Login Member</h1>
+              <p className="text-slate-500 mt-2 text-sm">
                 Masuk ke akun Anda untuk melanjutkan
               </p>
             </div>
 
             {error && (
-              <div className="bg-red-500/20 border border-red-500/30 p-4 rounded-2xl flex items-center mt-8">
-                <BiMessageAltError className="mr-3 text-red-400 text-xl" />
+              <div className="bg-red-50 border border-red-100 p-4 rounded-xl flex items-center mt-6 text-xs font-semibold text-red-700">
+                <BiMessageAltError className="mr-2 text-red-500 text-lg shrink-0" />
                 <span>{error}</span>
               </div>
             )}
 
             {loading && (
-              <div className="bg-slate-800 p-4 rounded-2xl flex items-center mt-8">
-                <MdOutlineDownloading className="mr-3 animate-spin text-xl text-green-400" />
+              <div className="bg-blue-50 border border-blue-100 p-4 rounded-xl flex items-center mt-6 text-xs text-blue-700 font-semibold">
+                <MdOutlineDownloading className="mr-2 animate-spin text-lg text-blue-500" />
                 Sedang login...
               </div>
             )}
 
-            <form onSubmit={handleLogin} className="space-y-6 mt-10">
+            <form onSubmit={handleLogin} className="space-y-4 mt-6">
               <div>
-                <label className="text-slate-300">Email</label>
-
-                <div className="mt-3 flex items-center bg-[#111D2E] rounded-2xl px-5 border border-slate-700">
-                  <FiMail className="text-slate-500 text-xl" />
-
+                <label className="text-slate-500 font-bold text-xs">Email</label>
+                <div className="mt-2 flex items-center bg-slate-50 border border-slate-200 rounded-xl px-4 focus-within:ring-2 focus-within:ring-blue-600 focus-within:border-blue-600 focus-within:bg-white transition">
+                  <FiMail className="text-slate-400 text-lg shrink-0" />
                   <input
                     type="email"
                     name="email"
@@ -201,17 +201,15 @@ export default function MemberLogin() {
                     onChange={handleChange}
                     placeholder="Masukkan email Anda"
                     required
-                    className="w-full bg-transparent p-5 outline-none text-white"
+                    className="w-full bg-transparent py-4 px-2 outline-none text-slate-800 text-sm"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="text-slate-300">Password</label>
-
-                <div className="mt-3 flex items-center bg-[#111D2E] rounded-2xl px-5 border border-slate-700">
-                  <FiLock className="text-slate-500 text-xl" />
-
+                <label className="text-slate-500 font-bold text-xs">Password</label>
+                <div className="mt-2 flex items-center bg-slate-50 border border-slate-200 rounded-xl px-4 focus-within:ring-2 focus-within:ring-blue-600 focus-within:border-blue-600 focus-within:bg-white transition">
+                  <FiLock className="text-slate-400 text-lg shrink-0" />
                   <input
                     type="password"
                     name="password"
@@ -219,7 +217,7 @@ export default function MemberLogin() {
                     onChange={handleChange}
                     placeholder="Masukkan password Anda"
                     required
-                    className="w-full bg-transparent p-5 outline-none text-white"
+                    className="w-full bg-transparent py-4 px-2 outline-none text-slate-800 text-sm"
                   />
                 </div>
               </div>
@@ -227,7 +225,7 @@ export default function MemberLogin() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-green-500 hover:bg-green-600 transition rounded-2xl py-5 font-bold text-lg flex items-center justify-center gap-3 shadow-[0_0_40px_rgba(34,197,94,0.3)]"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-extrabold transition rounded-xl py-4 flex items-center justify-center gap-2 shadow-lg shadow-blue-500/10 text-sm cursor-pointer mt-2"
               >
                 {loading ? (
                   "Logging in..."
@@ -240,11 +238,11 @@ export default function MemberLogin() {
               </button>
             </form>
 
-            <p className="text-center text-slate-400 mt-10">
+            <p className="text-center text-slate-400 text-xs mt-6">
               Belum punya akun?{" "}
               <Link
                 to="/member/register"
-                className="text-green-400 font-semibold hover:underline"
+                className="text-blue-600 font-bold hover:underline"
               >
                 Daftar Member
               </Link>

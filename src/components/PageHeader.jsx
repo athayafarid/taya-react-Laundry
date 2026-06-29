@@ -25,7 +25,7 @@ export default function PageHeader({
                                 className={`cursor-pointer ${
                                     index === breadcrumb.length - 1
                                         ? "text-gray-400 cursor-default"
-                                        : "text-green-600 hover:underline"
+                                        : "text-blue-600 hover:underline"
                                 }`}
                             >
                                 {item}
@@ -40,16 +40,18 @@ export default function PageHeader({
             </div>
 
             {/* RIGHT */}
-            <div id="action-button">
-                <Link to={actionLink}>
-                    <button className="group flex items-center gap-3 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-2xl font-bold text-sm shadow-lg shadow-green-100 transition-all active:scale-95">
-                        <span className="text-lg transition-transform group-hover:rotate-90">
-                            +
-                        </span>
-                        {actionLabel}
-                    </button>
-                </Link>
-            </div>
+            {actionLabel && (
+                <div id="action-button">
+                    <Link to={actionLink}>
+                        <button className="group flex items-center gap-3 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3.5 rounded-2xl font-extrabold text-sm shadow-lg shadow-blue-500/10 transition-all active:scale-95 cursor-pointer">
+                            <span className="text-lg transition-transform group-hover:rotate-90">
+                                +
+                            </span>
+                            {actionLabel}
+                        </button>
+                    </Link>
+                </div>
+            )}
         </div>
     );
 }

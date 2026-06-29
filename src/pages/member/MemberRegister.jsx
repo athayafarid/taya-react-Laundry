@@ -103,40 +103,38 @@ export default function MemberRegister() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0B132B] flex items-center justify-center p-4">
-      <div className="bg-[#1C2541] p-8 rounded-[32px] shadow-2xl w-full max-w-lg border border-gray-800">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50/50 via-white to-orange-50/30 flex items-center justify-center p-4 font-sans">
+      <div className="bg-white p-8 rounded-[32px] shadow-xl w-full max-w-lg border border-slate-100">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-black text-white">Daftar Member</h1>
-
-          <p className="text-gray-400 text-sm mt-2">
-            Bergabung sebagai member BILAS Laundry
+          <h1 className="text-3xl font-black text-slate-900">Daftar Member</h1>
+          <p className="text-slate-500 text-sm mt-2">
+            Bergabung sebagai member LaundryGo
           </p>
         </div>
 
         {success && (
-          <div className="bg-green-200 text-green-800 p-3 rounded-xl text-sm mb-4">
+          <div className="bg-green-50 border border-green-100 p-3.5 rounded-xl text-xs font-semibold text-green-700 mb-4">
             {success}
           </div>
         )}
 
         {error && (
-          <div className="bg-red-200 text-red-800 p-3 rounded-xl flex items-center mb-4 text-sm">
-            <BiMessageAltError className="mr-2 text-lg" />
+          <div className="bg-red-50 border border-red-100 p-3.5 rounded-xl flex items-center mb-4 text-xs font-semibold text-red-700">
+            <BiMessageAltError className="mr-2 text-lg shrink-0 text-red-500" />
             {error}
           </div>
         )}
 
         {loading && (
-          <div className="bg-gray-700 text-gray-200 p-3 rounded-xl flex items-center mb-4 text-sm">
-            <MdOutlineDownloading className="mr-2 animate-spin text-lg" />
+          <div className="bg-blue-50 border border-blue-100 p-3.5 rounded-xl flex items-center mb-4 text-xs text-blue-700 font-semibold">
+            <MdOutlineDownloading className="mr-2 animate-spin text-lg text-blue-500" />
             Sedang mendaftarkan akun...
           </div>
         )}
 
         <form onSubmit={handleRegister} className="space-y-4">
           <div>
-            <label className="text-gray-300 text-sm">Nama Lengkap</label>
-
+            <label className="text-slate-500 font-bold text-xs">Nama Lengkap</label>
             <input
               type="text"
               name="name"
@@ -144,13 +142,12 @@ export default function MemberRegister() {
               onChange={handleChange}
               placeholder="Masukkan nama lengkap"
               required
-              className="w-full mt-1 px-4 py-3 rounded-xl bg-[#131A30] border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="w-full mt-2 px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition text-sm"
             />
           </div>
 
           <div>
-            <label className="text-gray-300 text-sm">Email</label>
-
+            <label className="text-slate-500 font-bold text-xs">Email</label>
             <input
               type="email"
               name="email"
@@ -158,13 +155,12 @@ export default function MemberRegister() {
               onChange={handleChange}
               placeholder="email@gmail.com"
               required
-              className="w-full mt-1 px-4 py-3 rounded-xl bg-[#131A30] border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="w-full mt-2 px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition text-sm"
             />
           </div>
 
           <div>
-            <label className="text-gray-300 text-sm">Nomor Handphone</label>
-
+            <label className="text-slate-500 font-bold text-xs">Nomor Handphone</label>
             <input
               type="text"
               name="phone"
@@ -172,13 +168,12 @@ export default function MemberRegister() {
               onChange={handleChange}
               placeholder="08xxxxxxxxxx"
               required
-              className="w-full mt-1 px-4 py-3 rounded-xl bg-[#131A30] border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="w-full mt-2 px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition text-sm"
             />
           </div>
 
           <div>
-            <label className="text-gray-300 text-sm">Alamat</label>
-
+            <label className="text-slate-500 font-bold text-xs">Alamat</label>
             <textarea
               name="address"
               value={dataForm.address}
@@ -186,13 +181,12 @@ export default function MemberRegister() {
               placeholder="Masukkan alamat lengkap"
               required
               rows={3}
-              className="w-full mt-1 px-4 py-3 rounded-xl bg-[#131A30] border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="w-full mt-2 px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition text-sm"
             />
           </div>
 
           <div>
-            <label className="text-gray-300 text-sm">Password</label>
-
+            <label className="text-slate-500 font-bold text-xs">Password</label>
             <input
               type="password"
               name="password"
@@ -200,13 +194,12 @@ export default function MemberRegister() {
               onChange={handleChange}
               placeholder="********"
               required
-              className="w-full mt-1 px-4 py-3 rounded-xl bg-[#131A30] border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="w-full mt-2 px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition text-sm"
             />
           </div>
 
           <div>
-            <label className="text-gray-300 text-sm">Konfirmasi Password</label>
-
+            <label className="text-slate-500 font-bold text-xs">Konfirmasi Password</label>
             <input
               type="password"
               name="confirmPassword"
@@ -214,28 +207,35 @@ export default function MemberRegister() {
               onChange={handleChange}
               placeholder="********"
               required
-              className="w-full mt-1 px-4 py-3 rounded-xl bg-[#131A30] border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="w-full mt-2 px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition text-sm"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-[#00E676] hover:bg-[#00C853] text-white font-bold py-3 rounded-xl transition"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-extrabold py-3.5 rounded-xl transition duration-200 disabled:bg-slate-300 cursor-pointer text-sm shadow-lg shadow-blue-500/10 mt-2"
           >
             {loading ? "Registering..." : "Daftar Menjadi Member"}
           </button>
         </form>
 
-        <p className="text-center text-gray-400 text-sm mt-6">
+        <p className="text-center text-slate-400 text-xs mt-6">
           Sudah memiliki akun?{" "}
           <Link
             to="/member/login"
-            className="text-[#00E676] font-semibold hover:underline"
+            className="text-blue-600 font-bold hover:underline"
           >
             Login di sini
           </Link>
         </p>
+
+        <Link
+          to="/"
+          className="text-center block mt-4 text-xs font-bold text-slate-400 hover:text-slate-600 transition duration-200"
+        >
+          ← Kembali ke Landing Page
+        </Link>
       </div>
     </div>
   );

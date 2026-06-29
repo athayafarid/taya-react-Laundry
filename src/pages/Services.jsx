@@ -1,4 +1,14 @@
 import { useState, useEffect } from "react";
+import PageHeader from "../components/PageHeader";
+import { MdAdd, MdDelete, MdLocalLaundryService } from "react-icons/md";
+
+const defaultServices = [
+  { id: "s1", name: "Cuci Kering Setrika", price: 7000 },
+  { id: "s2", name: "Cuci Kering", price: 5000 },
+  { id: "s3", name: "Setrika Saja", price: 4000 },
+  { id: "s4", name: "Cuci Bed Cover", price: 15000 },
+  { id: "s5", name: "Cuci Sepatu", price: 30000 },
+];
 
 export default function Services() {
   const [services, setServices] = useState([]);
@@ -6,18 +16,23 @@ export default function Services() {
   const [price, setPrice] = useState("");
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("services")) || [];
+    let data = JSON.parse(localStorage.getItem("services")) || [];
+    if (data.length === 0) {
+      data = defaultServices;
+      localStorage.setItem("services", JSON.stringify(defaultServices));
+    }
     setServices(data);
   }, []);
 
-  const addService = () => {
-    if (!name || !price) return alert("Isi semua field!");
-    if (price <= 0) return alert("Harga harus lebih dari 0!");
+  const addService = (e) => {
+    e.preventDefault();
+    if (!name || !price) return alert("Semua kolom harus diisi!");
+    if (Number(price) <= 0) return alert("Harga harus lebih dari 0!");
 
     const newService = {
-      id: Date.now(),
+      id: `s-${Date.now()}`,
       name,
-      price: Number(price), // 🔥 FIX penting
+      price: Number(price),
     };
 
     const updated = [...services, newService];
@@ -29,78 +44,102 @@ export default function Services() {
   };
 
   const deleteService = (id) => {
+    if (!window.confirm("Apakah Anda yakin ingin menghapus layanan ini?")) return;
     const updated = services.filter((s) => s.id !== id);
     setServices(updated);
     localStorage.setItem("services", JSON.stringify(updated));
   };
 
+  const formatRupiah = (angka) =>
+    new Intl.NumberFormat("id-ID").format(angka);
+
   return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold mb-6">Layanan & Harga</h1>
+    <div className="p-8 bg-slate-50 min-h-screen text-slate-800 font-sans antialiased">
+      <PageHeader
+        title="Layanan & Harga"
+        breadcrumb={["Laundry", "Services"]}
+        actionLabel=""
+      />
 
-      {/* FORM */}
-      <div className="bg-white p-6 rounded-2xl shadow-sm border mb-6">
-        <div className="grid md:grid-cols-3 gap-4">
-          <input
-            type="text"
-            placeholder="Nama layanan"
-            className="border rounded-xl p-3"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* ADD SERVICE FORM */}
+        <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm h-fit">
+          <div className="flex items-center gap-2 mb-4 pb-3 border-b border-slate-100">
+            <MdLocalLaundryService className="text-blue-600 text-lg" />
+            <h2 className="text-sm font-black text-slate-900 uppercase tracking-wider">Tambah Layanan</h2>
+          </div>
 
-          <input
-            type="number"
-            placeholder="Harga (per kg)"
-            className="border rounded-xl p-3"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-          />
+          <form onSubmit={addService} className="space-y-4">
+            <div className="flex flex-col gap-1.5">
+              <label className="text-xs font-bold text-slate-500">Nama Layanan</label>
+              <input
+                type="text"
+                placeholder="Contoh: Cuci Karpet"
+                className="w-full px-4 py-3 border border-slate-200 rounded-xl bg-slate-50 text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition text-sm"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+            </div>
 
-          <button
-            onClick={addService}
-            className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl"
-          >
-            Tambah Layanan
-          </button>
+            <div className="flex flex-col gap-1.5">
+              <label className="text-xs font-bold text-slate-500">Harga / Kg (Rp)</label>
+              <input
+                type="number"
+                placeholder="Contoh: 12000"
+                className="w-full px-4 py-3 border border-slate-200 rounded-xl bg-slate-50 text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition text-sm font-bold"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                required
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-extrabold py-3 rounded-xl transition duration-150 shadow-lg shadow-blue-500/10 cursor-pointer text-xs flex items-center justify-center gap-1"
+            >
+              <MdAdd size={16} /> Tambah Layanan
+            </button>
+          </form>
         </div>
-      </div>
 
-      {/* TABLE */}
-      <div className="bg-white rounded-2xl shadow-sm border overflow-hidden">
-        <table className="w-full">
-          <thead className="bg-gray-50 text-left">
-            <tr>
-              <th className="p-4">Layanan</th>
-              <th>Harga / Kg</th>
-              <th className="text-center">Aksi</th>
-            </tr>
-          </thead>
-          <tbody>
-            {services.length > 0 ? (
-              services.map((s) => (
-                <tr key={s.id} className="border-t">
-                  <td className="p-4">{s.name}</td>
-                  <td>Rp {s.price}</td>
-                  <td className="text-center">
-                    <button
-                      onClick={() => deleteService(s.id)}
-                      className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg"
-                    >
-                      Hapus
-                    </button>
+        {/* SERVICES LIST TABLE */}
+        <div className="lg:col-span-2 bg-white rounded-3xl border border-slate-100 shadow-sm p-4 overflow-x-auto">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="text-slate-400 text-[10px] font-black uppercase tracking-wider border-b border-slate-100">
+                <th className="pb-4 pl-4">Jenis Layanan</th>
+                <th className="pb-4">Harga / Kg</th>
+                <th className="pb-4 text-center">Aksi</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-50 text-xs font-bold">
+              {services.length > 0 ? (
+                services.map((s) => (
+                  <tr key={s.id} className="hover:bg-slate-50/50 transition">
+                    <td className="py-4 pl-4 font-black text-slate-950">{s.name}</td>
+                    <td className="py-4 text-blue-600 font-extrabold">Rp {formatRupiah(s.price)}</td>
+                    <td className="py-4 text-center">
+                      <button
+                        onClick={() => deleteService(s.id)}
+                        className="p-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-xl transition border border-red-150 cursor-pointer active:scale-95"
+                        title="Hapus Layanan"
+                      >
+                        <MdDelete size={16} />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="3" className="text-center py-8 text-slate-400">
+                    Belum ada layanan laundry terdaftar.
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="3" className="text-center p-6 text-gray-400">
-                  Belum ada layanan
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

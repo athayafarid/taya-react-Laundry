@@ -78,19 +78,6 @@ export default function Sidebar() {
         </li>
 
         <li>
-          <NavLink to="/notifications" className={menuClass}>
-            <MdNotifications size={22} />
-            <span className="text-sm">Notifikasi</span>
-          </NavLink>
-        </li>
-
-        <li>
-          <NavLink to="/order-history" className={menuClass}>
-            <MdHistory size={22} />
-            <span className="text-sm">Riwayat</span>
-          </NavLink>
-        </li>
-        <li>
           <NavLink id="menu-2" to="/Product" className={menuClass}>
             <MdOutlineAssignment className="mr-4 text-xl" />
             <span>Produk</span>
