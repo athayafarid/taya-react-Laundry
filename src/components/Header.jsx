@@ -14,6 +14,8 @@ import {
   MdPeople,
   MdRefresh,
   MdSchedule,
+  MdOutlineLightMode,
+  MdOutlineDarkMode,
 } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
@@ -31,7 +33,7 @@ const menuResults = [
   { type: "Menu", title: "Tracking Status", description: "Lacak cucian berdasarkan ID nota", to: "/tracking", icon: MdSchedule },
   { type: "Menu", title: "Data Pelanggan", description: "Daftar pelanggan dan loyalty", to: "/customers", icon: MdPeople },
   { type: "Menu", title: "Layanan & Harga", description: "Kelola layanan laundry", to: "/services", icon: MdLocalLaundryService },
-  { type: "Menu", title: "Produk", description: "Inventori produk dan perlengkapan", to: "/Product", icon: MdInventory2 },
+  { type: "Menu", title: "Produk", description: "Inventori produk dan perlengkapan", to: "/product", icon: MdInventory2 },
 ];
 
 const defaultServices = [
@@ -43,6 +45,22 @@ const defaultServices = [
 ];
 
 export default function Header({ onMenuClick = () => {} }) {
+  const [isDark, setIsDark] = useState(() => {
+    return document.documentElement.classList.contains("dark");
+  });
+
+  const toggleTheme = () => {
+    const nextDark = !isDark;
+    setIsDark(nextDark);
+    if (nextDark) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  };
+
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -277,6 +295,20 @@ export default function Header({ onMenuClick = () => {} }) {
             className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-blue-600 shadow-sm ring-1 ring-slate-200 md:hidden"
           >
             <FaSearch size={16} />
+          </button>
+
+          {/* Theme Toggle Button */}
+          <button
+            type="button"
+            onClick={toggleTheme}
+            className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-slate-600 shadow-sm ring-1 ring-slate-200 transition hover:text-blue-700 cursor-pointer"
+            aria-label="Toggle theme"
+          >
+            {isDark ? (
+              <MdOutlineLightMode size={19} className="text-yellow-500" />
+            ) : (
+              <MdOutlineDarkMode size={19} />
+            )}
           </button>
 
           <div className="relative">

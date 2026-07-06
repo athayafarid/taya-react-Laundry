@@ -18,6 +18,10 @@ export default function Orders() {
   const [activeTab, setActiveTab] = useState("active"); // "active" or "history"
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState([]);
+  
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const generateNotifications = useCallback((orderList) => {
     const list = [];
@@ -44,6 +48,7 @@ export default function Orders() {
 
   const fetchOrders = useCallback(async () => {
     setLoading(true);
+    setCurrentPage(1);
     try {
       const { data, error } = await supabase
         .from("orders")
@@ -75,7 +80,6 @@ export default function Orders() {
 
       if (error) throw error;
 
-      // Update state local
       setOrders(orders.map(o => o.id === orderId ? { ...o, status: newStatus } : o));
     } catch (err) {
       console.error("Gagal mengupdate status:", err.message);
@@ -93,7 +97,6 @@ export default function Orders() {
 
       if (error) throw error;
 
-      // Update state local
       setOrders(orders.map(o => o.id === orderId ? { ...o, payment: nextPayment } : o));
     } catch (err) {
       console.error("Gagal mengupdate status pembayaran:", err.message);
@@ -103,6 +106,16 @@ export default function Orders() {
 
   const formatRupiah = (angka) =>
     new Intl.NumberFormat("id-ID").format(angka);
+
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value);
+    setCurrentPage(1);
+  };
+
+  const handleTabChange = (tabName) => {
+    setActiveTab(tabName);
+    setCurrentPage(1);
+  };
 
   // Filter pencarian dan tab
   const filteredOrders = orders.filter((o) => {
@@ -116,6 +129,11 @@ export default function Orders() {
 
     return matchSearch && matchTab;
   });
+
+  // Pagination calculation
+  const totalPages = Math.ceil(filteredOrders.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedOrders = filteredOrders.slice(startIndex, startIndex + itemsPerPage);
 
   return (
     <div className="p-8 bg-slate-50 min-h-screen text-slate-800 font-sans antialiased relative">
@@ -172,14 +190,14 @@ export default function Orders() {
         {/* TABS */}
         <div className="flex gap-2 bg-white p-1.5 rounded-2xl border border-slate-200 shadow-sm w-full sm:w-auto">
           <button
-            onClick={() => setActiveTab("active")}
+            onClick={() => handleTabChange("active")}
             className={`flex-1 sm:flex-initial px-5 py-2.5 rounded-xl text-xs font-black transition duration-150 cursor-pointer flex items-center justify-center gap-1.5
               ${activeTab === "active" ? "bg-blue-600 text-white shadow-md shadow-blue-500/10" : "text-slate-600 hover:bg-slate-50"}`}
           >
             <MdLocalLaundryService size={16} /> Pesanan Aktif
           </button>
           <button
-            onClick={() => setActiveTab("history")}
+            onClick={() => handleTabChange("history")}
             className={`flex-1 sm:flex-initial px-5 py-2.5 rounded-xl text-xs font-black transition duration-150 cursor-pointer flex items-center justify-center gap-1.5
               ${activeTab === "history" ? "bg-blue-600 text-white shadow-md shadow-blue-500/10" : "text-slate-600 hover:bg-slate-50"}`}
           >
@@ -197,7 +215,7 @@ export default function Orders() {
               type="text"
               placeholder="Cari ID / Nama / Layanan..."
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={handleSearchChange}
               className="pl-10 pr-4 py-2.5 w-full sm:w-64 bg-white border border-slate-200 rounded-2xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition"
             />
           </div>
@@ -218,67 +236,121 @@ export default function Orders() {
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
             <p className="text-xs text-slate-500 font-bold">Memuat data order dari database Supabase...</p>
           </div>
-        ) : filteredOrders.length > 0 ? (
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="text-slate-400 text-[10px] font-black uppercase tracking-wider border-b border-slate-100">
-                <th className="pb-4 pl-4">ID Nota</th>
-                <th className="pb-4">Tanggal Masuk</th>
-                <th className="pb-4">Nama Customer</th>
-                <th className="pb-4">Jenis Layanan</th>
-                <th className="pb-4">Berat</th>
-                <th className="pb-4">Total</th>
-                <th className="pb-4 text-center">Status Pembayaran</th>
-                <th className="pb-4 text-center">Status Pengerjaan</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-50 text-xs">
-              {filteredOrders.map((o) => (
-                <tr key={o.id} className="hover:bg-slate-50/50 transition">
-                  <td className="py-4 pl-4 font-mono font-bold text-slate-800">{o.id}</td>
-                  <td className="py-4 text-slate-500 font-semibold">
-                    {new Date(o.date).toLocaleDateString("id-ID", {
-                      day: "numeric",
-                      month: "short",
-                      year: "numeric"
-                    })}
-                  </td>
-                  <td className="py-4 font-black text-slate-900">{o.customer || "Umum"}</td>
-                  <td className="py-4 font-bold text-slate-500">{o.service}</td>
-                  <td className="py-4 font-bold text-slate-800">{o.weight} kg</td>
-                  <td className="py-4 font-black text-slate-950">Rp {formatRupiah(o.total)}</td>
-                  
-                  {/* PEMBAYARAN TOGGLE BADGE */}
-                  <td className="py-4 text-center">
-                    <button
-                      onClick={() => togglePaymentStatus(o.id, o.payment)}
-                      className={`px-3 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-wider cursor-pointer transition active:scale-95 border
-                        ${o.payment === "Sudah Bayar"
-                          ? "bg-green-50 text-green-700 border-green-150 hover:bg-green-100"
-                          : "bg-red-50 text-red-700 border-red-150 hover:bg-red-100"}`}
-                      title="Klik untuk mengubah status pembayaran"
-                    >
-                      {o.payment || "Belum Bayar"}
-                    </button>
-                  </td>
-
-                  {/* STATUS DROPDOWN */}
-                  <td className="py-4 text-center">
-                    <select
-                      value={o.status || "Order Diterima"}
-                      onChange={(e) => handleStatusChange(o.id, e.target.value)}
-                      className="bg-slate-50 border border-slate-200 text-[10px] rounded-xl px-2.5 py-1.5 font-black uppercase tracking-wider text-slate-700 focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer"
-                    >
-                      <option value="Order Diterima">Order Diterima</option>
-                      <option value="Diproses">Diproses</option>
-                      <option value="Selesai">Selesai</option>
-                      <option value="Diambil">Diambil</option>
-                    </select>
-                  </td>
+        ) : paginatedOrders.length > 0 ? (
+          <>
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="text-slate-400 text-[10px] font-black uppercase tracking-wider border-b border-slate-100">
+                  <th className="pb-4 pl-4">ID Nota</th>
+                  <th className="pb-4">Tanggal Masuk</th>
+                  <th className="pb-4">Nama Customer</th>
+                  <th className="pb-4">Jenis Layanan</th>
+                  <th className="pb-4">Berat</th>
+                  <th className="pb-4">Total</th>
+                  <th className="pb-4 text-center">Status Pembayaran</th>
+                  <th className="pb-4 text-center">Status Pengerjaan</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-slate-50 text-xs">
+                {paginatedOrders.map((o) => (
+                  <tr key={o.id} className="hover:bg-slate-50/50 transition">
+                    <td className="py-4 pl-4 font-mono font-bold text-slate-800">{o.id}</td>
+                    <td className="py-4 text-slate-500 font-semibold">
+                      {new Date(o.date).toLocaleDateString("id-ID", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric"
+                      })}
+                    </td>
+                    <td className="py-4 font-black text-slate-900">{o.customer || "Umum"}</td>
+                    <td className="py-4 font-bold text-slate-500">{o.service}</td>
+                    <td className="py-4 font-bold text-slate-800">{o.weight} kg</td>
+                    <td className="py-4 font-black text-slate-950">Rp {formatRupiah(o.total)}</td>
+                    
+                    {/* PEMBAYARAN TOGGLE BADGE */}
+                    <td className="py-4 text-center">
+                      <button
+                        onClick={() => togglePaymentStatus(o.id, o.payment)}
+                        className={`px-3 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-wider cursor-pointer transition active:scale-95 border
+                          ${o.payment === "Sudah Bayar"
+                            ? "bg-green-50 text-green-700 border-green-150 hover:bg-green-100"
+                            : "bg-red-50 text-red-700 border-red-150 hover:bg-red-100"}`}
+                        title="Klik untuk mengubah status pembayaran"
+                      >
+                        {o.payment || "Belum Bayar"}
+                      </button>
+                    </td>
+
+                    {/* STATUS DROPDOWN */}
+                    <td className="py-4 text-center">
+                      <select
+                        value={o.status || "Order Diterima"}
+                        onChange={(e) => handleStatusChange(o.id, e.target.value)}
+                        className="bg-slate-50 border border-slate-200 text-[10px] rounded-xl px-2.5 py-1.5 font-black uppercase tracking-wider text-slate-700 focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer"
+                      >
+                        <option value="Order Diterima">Order Diterima</option>
+                        <option value="Diproses">Diproses</option>
+                        <option value="Selesai">Selesai</option>
+                        <option value="Diambil">Diambil</option>
+                      </select>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            {/* PAGINATION CONTROLS */}
+            <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-6 pt-4 border-t border-slate-100 text-xs text-slate-500 font-bold">
+              <div>
+                Menampilkan <span className="text-slate-800">{startIndex + 1}</span> -{" "}
+                <span className="text-slate-800">
+                  {Math.min(startIndex + itemsPerPage, filteredOrders.length)}
+                </span>{" "}
+                dari <span className="text-slate-800">{filteredOrders.length}</span> pesanan
+              </div>
+              <div className="flex items-center gap-1.5">
+                <button
+                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                  className="px-3.5 py-2 border border-slate-200 rounded-xl hover:bg-slate-50 transition cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed text-slate-600"
+                >
+                  Sebelumnya
+                </button>
+                
+                {Array.from({ length: Math.min(5, totalPages) }, (_, idx) => {
+                  let pageNum = idx + 1;
+                  if (totalPages > 5 && currentPage > 3) {
+                    pageNum = currentPage - 3 + idx;
+                    if (pageNum + (4 - idx) > totalPages) {
+                      pageNum = totalPages - 4 + idx;
+                    }
+                  }
+                  
+                  return (
+                    <button
+                      key={pageNum}
+                      onClick={() => setCurrentPage(pageNum)}
+                      className={`w-9 h-9 rounded-xl border transition cursor-pointer text-xs font-black flex items-center justify-center ${
+                        currentPage === pageNum
+                          ? "bg-blue-600 border-blue-600 text-white shadow-md shadow-blue-500/20"
+                          : "border-slate-200 hover:bg-slate-50 text-slate-600"
+                      }`}
+                    >
+                      {pageNum}
+                    </button>
+                  );
+                })}
+
+                <button
+                  disabled={currentPage === totalPages}
+                  onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                  className="px-3.5 py-2 border border-slate-200 rounded-xl hover:bg-slate-50 transition cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed text-slate-600"
+                >
+                  Selanjutnya
+                </button>
+              </div>
+            </div>
+          </>
         ) : (
           <div className="text-center py-12 text-slate-400 text-xs font-bold">
             Tidak ada pesanan laundry yang ditemukan.

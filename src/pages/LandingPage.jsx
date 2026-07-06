@@ -16,10 +16,29 @@ import {
   Menu,
   Shield,
   Star,
-  Users
+  Users,
+  Sun,
+  Moon
 } from "lucide-react";
 
 export default function LandingPage() {
+  // State untuk Tema Gelap/Terang (dibaca langsung dari localStorage)
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    return localStorage.getItem("theme") === "dark" || document.documentElement.classList.contains("dark");
+  });
+
+  const toggleTheme = () => {
+    const nextTheme = !isDarkMode;
+    setIsDarkMode(nextTheme);
+    if (nextTheme) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  };
+
   // State untuk FAQ Accordion
   const [openFaq, setOpenFaq] = useState(null);
   
@@ -85,37 +104,48 @@ export default function LandingPage() {
   }, [showBanner]);
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans text-slate-800 scroll-smooth antialiased">
+    <div className={`min-h-screen font-sans scroll-smooth antialiased transition-colors duration-300 ${isDarkMode ? "bg-slate-950 text-slate-100 dark" : "bg-slate-50 text-slate-800"}`}>
       
       {/* =========================================================================
           1. AREA TOP (ATTENTION)
           ========================================================================= */}
       
       {/* NAVBAR */}
-      <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 px-6 py-4">
+      <nav className={`sticky top-0 z-50 backdrop-blur-md border-b px-6 py-4 transition-all duration-300 ${isDarkMode ? "bg-slate-950/80 border-slate-800/80" : "bg-white/80 border-slate-100"}`}>
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           {/* Logo */}
           <div className="flex items-center gap-2">
             <div className="h-10 w-10 bg-blue-600 rounded-xl flex items-center justify-center font-bold text-white shadow-lg shadow-blue-500/20">
               <span className="text-xl">L</span>
             </div>
-            <span className="text-2xl font-black tracking-tight text-slate-900">
+            <span className={`text-2xl font-black tracking-tight transition duration-200 ${isDarkMode ? "text-white" : "text-slate-900"}`}>
               Laundry<span className="text-blue-600">Go</span>
             </span>
           </div>
 
           {/* Desktop Nav Links */}
           <div className="hidden md:flex items-center gap-8">
-            <a href="#beranda" className="text-slate-600 hover:text-blue-600 font-semibold transition">Beranda</a>
-            <a href="#fitur" className="text-slate-600 hover:text-blue-600 font-semibold transition">Fitur</a>
-            <a href="#cara-kerja" className="text-slate-600 hover:text-blue-600 font-semibold transition">Cara Kerja</a>
-            <a href="#faq" className="text-slate-600 hover:text-blue-600 font-semibold transition">FAQ</a>
-            <a href="#kontak" className="text-slate-600 hover:text-blue-600 font-semibold transition">Kontak</a>
+            <a href="#beranda" className={`font-semibold transition duration-200 ${isDarkMode ? "text-slate-300 hover:text-blue-400" : "text-slate-600 hover:text-blue-600"}`}>Beranda</a>
+            <a href="#fitur" className={`font-semibold transition duration-200 ${isDarkMode ? "text-slate-300 hover:text-blue-400" : "text-slate-600 hover:text-blue-600"}`}>Fitur</a>
+            <a href="#cara-kerja" className={`font-semibold transition duration-200 ${isDarkMode ? "text-slate-300 hover:text-blue-400" : "text-slate-600 hover:text-blue-600"}`}>Cara Kerja</a>
+            <a href="#faq" className={`font-semibold transition duration-200 ${isDarkMode ? "text-slate-300 hover:text-blue-400" : "text-slate-600 hover:text-blue-600"}`}>FAQ</a>
+            <a href="#kontak" className={`font-semibold transition duration-200 ${isDarkMode ? "text-slate-300 hover:text-blue-400" : "text-slate-600 hover:text-blue-600"}`}>Kontak</a>
           </div>
 
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-3">
-            <Link to="/login" className="text-slate-700 hover:text-blue-600 font-bold px-4 py-2 transition text-sm">
+            {/* Theme Toggle Button */}
+            <button
+              onClick={toggleTheme}
+              className={`p-2.5 rounded-xl border transition-all duration-200 cursor-pointer flex items-center justify-center
+                ${isDarkMode 
+                  ? "border-slate-800 bg-slate-900 text-yellow-400 hover:bg-slate-850 hover:text-yellow-300 shadow-md shadow-yellow-500/5" 
+                  : "border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 hover:text-blue-600 shadow-sm"}`}
+              aria-label="Toggle theme"
+            >
+              {isDarkMode ? <Sun size={16} /> : <Moon size={16} />}
+            </button>
+            <Link to="/login" className={`font-bold px-4 py-2 transition text-sm ${isDarkMode ? "text-slate-300 hover:text-blue-400" : "text-slate-700 hover:text-blue-600"}`}>
               Masuk
             </Link>
             <Link to="/register" className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-bold transition text-sm shadow-md shadow-blue-500/10">
@@ -126,7 +156,7 @@ export default function LandingPage() {
           {/* Mobile Menu Button */}
           <button 
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 text-slate-700 hover:text-blue-600 transition"
+            className={`md:hidden p-2 transition duration-200 ${isDarkMode ? "text-slate-300 hover:text-blue-400" : "text-slate-700 hover:text-blue-600"}`}
           >
             <Menu size={24} />
           </button>
@@ -134,44 +164,55 @@ export default function LandingPage() {
 
         {/* Mobile Navigation Drawer */}
         {isMobileMenuOpen && (
-          <div className="md:hidden absolute top-full left-0 w-full bg-white border-b border-slate-100 shadow-xl px-6 py-6 flex flex-col gap-4 animate-fadeIn">
+          <div className={`md:hidden absolute top-full left-0 w-full border-b shadow-xl px-6 py-6 flex flex-col gap-4 animate-fadeIn transition duration-300 ${isDarkMode ? "bg-slate-950 border-slate-800" : "bg-white border-slate-100"}`}>
             <a 
               href="#beranda" 
               onClick={() => setIsMobileMenuOpen(false)}
-              className="text-slate-600 font-semibold py-2 border-b border-slate-50"
+              className={`font-semibold py-2 border-b transition ${isDarkMode ? "text-slate-300 border-slate-800/80 hover:text-blue-400" : "text-slate-600 border-slate-50 hover:text-blue-600"}`}
             >
               Beranda
             </a>
             <a 
               href="#fitur" 
               onClick={() => setIsMobileMenuOpen(false)}
-              className="text-slate-600 font-semibold py-2 border-b border-slate-50"
+              className={`font-semibold py-2 border-b transition ${isDarkMode ? "text-slate-300 border-slate-800/80 hover:text-blue-400" : "text-slate-600 border-slate-50 hover:text-blue-600"}`}
             >
               Fitur
             </a>
             <a 
               href="#cara-kerja" 
               onClick={() => setIsMobileMenuOpen(false)}
-              className="text-slate-600 font-semibold py-2 border-b border-slate-50"
+              className={`font-semibold py-2 border-b transition ${isDarkMode ? "text-slate-300 border-slate-800/80 hover:text-blue-400" : "text-slate-600 border-slate-50 hover:text-blue-600"}`}
             >
               Cara Kerja
             </a>
             <a 
               href="#faq" 
               onClick={() => setIsMobileMenuOpen(false)}
-              className="text-slate-600 font-semibold py-2 border-b border-slate-50"
+              className={`font-semibold py-2 border-b transition ${isDarkMode ? "text-slate-300 border-slate-800/80 hover:text-blue-400" : "text-slate-600 border-slate-50 hover:text-blue-600"}`}
             >
               FAQ
             </a>
             <a 
               href="#kontak" 
               onClick={() => setIsMobileMenuOpen(false)}
-              className="text-slate-600 font-semibold py-2 border-b border-slate-50"
+              className={`font-semibold py-2 border-b transition ${isDarkMode ? "text-slate-300 border-slate-800/80 hover:text-blue-400" : "text-slate-600 border-slate-50 hover:text-blue-600"}`}
             >
               Kontak
             </a>
-            <div className="flex gap-4 pt-2">
-              <Link to="/login" className="flex-1 text-center border border-slate-200 hover:border-blue-600 text-slate-700 font-bold py-3 rounded-xl transition text-sm">
+            <div className="flex gap-4 pt-2 items-center">
+              {/* Mobile Theme Toggle Button */}
+              <button
+                onClick={toggleTheme}
+                className={`p-3 rounded-xl border transition-all duration-200 cursor-pointer flex items-center justify-center
+                  ${isDarkMode 
+                    ? "border-slate-800 bg-slate-900 text-yellow-400" 
+                    : "border-slate-200 bg-slate-50 text-slate-700"}`}
+                aria-label="Toggle theme"
+              >
+                {isDarkMode ? <Sun size={16} /> : <Moon size={16} />}
+              </button>
+              <Link to="/login" className={`flex-1 text-center border font-bold py-3 rounded-xl transition text-sm ${isDarkMode ? "border-slate-800 hover:border-blue-500 text-slate-300" : "border-slate-200 hover:border-blue-600 text-slate-700"}`}>
                 Masuk
               </Link>
               <Link to="/register" className="flex-1 text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition text-sm shadow-md">

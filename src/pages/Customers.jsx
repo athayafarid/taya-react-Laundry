@@ -21,6 +21,10 @@ export default function Customers() {
   const [customers, setCustomers] = useState([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
+  
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   useEffect(() => {
     getCustomers();
@@ -28,6 +32,7 @@ export default function Customers() {
 
   const getCustomers = async () => {
     setLoading(true);
+    setCurrentPage(1);
     try {
       // Mengambil dari tabel 'orders' untuk mengekstrak data pelanggan secara dinamis
       const { data, error } = await supabase
@@ -77,6 +82,16 @@ export default function Customers() {
     c.phone?.toLowerCase().includes(search.toLowerCase())
   );
 
+  // Pagination calculation
+  const totalPages = Math.ceil(filteredCustomers.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedCustomers = filteredCustomers.slice(startIndex, startIndex + itemsPerPage);
+
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value);
+    setCurrentPage(1);
+  };
+
   return (
     <div className="p-8 bg-slate-50 min-h-screen text-slate-800 font-sans antialiased">
       <PageHeader
@@ -94,9 +109,10 @@ export default function Customers() {
           </span>
           <input
             type="text"
+            name="search"
             placeholder="Cari pelanggan..."
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={handleSearchChange}
             className="pl-9 pr-4 py-2.5 w-full bg-white border border-slate-200 rounded-2xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition"
           />
         </div>
@@ -116,42 +132,96 @@ export default function Customers() {
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
             <p className="text-xs text-slate-500 font-bold">Memuat data pelanggan dari database Supabase...</p>
           </div>
-        ) : filteredCustomers.length > 0 ? (
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="text-slate-400 text-[10px] font-black uppercase tracking-wider border-b border-slate-100">
-                <th className="pb-4 pl-4">Pelanggan</th>
-                <th className="pb-4">Email</th>
-                <th className="pb-4">No. Handphone</th>
-                <th className="pb-4 text-center">Loyalty Level</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-50 text-xs">
-              {filteredCustomers.map((c, i) => (
-                <tr key={i} className="hover:bg-slate-50/50 transition">
-                  <td className="py-4 pl-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">
-                        <MdPerson size={18} />
-                      </div>
-                      <span className="font-black text-slate-950">{c.name}</span>
-                    </div>
-                  </td>
-                  <td className="py-4 text-slate-500 font-semibold">{c.email || "-"}</td>
-                  <td className="py-4 text-slate-900 font-bold">{c.phone}</td>
-                  <td className="py-4 text-center">
-                    <span
-                      className={`px-3 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-wider border ${getLoyaltyBadge(
-                        c.points
-                      )}`}
-                    >
-                      {getLoyaltyLabel(c.points)} ({c.transactionCount} trx)
-                    </span>
-                  </td>
+        ) : paginatedCustomers.length > 0 ? (
+          <>
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="text-slate-400 text-[10px] font-black uppercase tracking-wider border-b border-slate-100">
+                  <th className="pb-4 pl-4">Pelanggan</th>
+                  <th className="pb-4">Email</th>
+                  <th className="pb-4">No. Handphone</th>
+                  <th className="pb-4 text-center">Loyalty Level</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-slate-50 text-xs">
+                {paginatedCustomers.map((c, i) => (
+                  <tr key={i} className="hover:bg-slate-50/50 transition">
+                    <td className="py-4 pl-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">
+                          <MdPerson size={18} />
+                        </div>
+                        <span className="font-black text-slate-950">{c.name}</span>
+                      </div>
+                    </td>
+                    <td className="py-4 text-slate-500 font-semibold">{c.email || "-"}</td>
+                    <td className="py-4 text-slate-900 font-bold">{c.phone}</td>
+                    <td className="py-4 text-center">
+                      <span
+                        className={`px-3 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-wider border ${getLoyaltyBadge(
+                          c.points
+                        )}`}
+                      >
+                        {getLoyaltyLabel(c.points)} ({c.transactionCount} trx)
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            {/* PAGINATION CONTROLS */}
+            <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-6 pt-4 border-t border-slate-100 text-xs text-slate-500 font-bold">
+              <div>
+                Menampilkan <span className="text-slate-800">{startIndex + 1}</span> -{" "}
+                <span className="text-slate-800">
+                  {Math.min(startIndex + itemsPerPage, filteredCustomers.length)}
+                </span>{" "}
+                dari <span className="text-slate-800">{filteredCustomers.length}</span> pelanggan
+              </div>
+              <div className="flex items-center gap-1.5">
+                <button
+                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                  className="px-3.5 py-2 border border-slate-200 rounded-xl hover:bg-slate-50 transition cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed text-slate-600"
+                >
+                  Sebelumnya
+                </button>
+                
+                {Array.from({ length: Math.min(5, totalPages) }, (_, idx) => {
+                  let pageNum = idx + 1;
+                  if (totalPages > 5 && currentPage > 3) {
+                    pageNum = currentPage - 3 + idx;
+                    if (pageNum + (4 - idx) > totalPages) {
+                      pageNum = totalPages - 4 + idx;
+                    }
+                  }
+                  
+                  return (
+                    <button
+                      key={pageNum}
+                      onClick={() => setCurrentPage(pageNum)}
+                      className={`w-9 h-9 rounded-xl border transition cursor-pointer text-xs font-black flex items-center justify-center ${
+                        currentPage === pageNum
+                          ? "bg-blue-600 border-blue-600 text-white shadow-md shadow-blue-500/20"
+                          : "border-slate-200 hover:bg-slate-50 text-slate-600"
+                      }`}
+                    >
+                      {pageNum}
+                    </button>
+                  );
+                })}
+
+                <button
+                  disabled={currentPage === totalPages}
+                  onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                  className="px-3.5 py-2 border border-slate-200 rounded-xl hover:bg-slate-50 transition cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed text-slate-600"
+                >
+                  Selanjutnya
+                </button>
+              </div>
+            </div>
+          </>
         ) : (
           <div className="text-center py-12 text-slate-400 text-xs font-bold">
             Tidak ada data pelanggan yang terdaftar.

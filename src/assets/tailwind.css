@@ -41,6 +41,45 @@ body {
 
 /* Input modern */
 .input-modern {
+  /* Definisi warna kustom Sedap. agar class bg-hijau dll berfungsi */
+  --color-hijau: #00b074;
+  --color-merah: #ff5b5b;
+  --color-biru: #2d9cdb;
+  --color-kuning: #ffbb00;
+  --color-latar: #f3f4f6;
+  --color-teks-abu: #b9bbbd;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: #f5f7fb;
+}
+
+/* Card modern */
+.card-modern {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+/* Button gradient */
+.btn-gradient {
+  background: linear-gradient(135deg, #3b82f6, #6366f1);
+  color: white;
+  border-radius: 12px;
+  transition: 0.3s;
+}
+
+.btn-gradient:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/* Input modern */
+.input-modern {
   border: 1px solid #e5e7eb;
   border-radius: 12px;
   padding: 12px;
@@ -50,4 +89,319 @@ body {
 .input-modern:focus {
   border-color: #3b82f6;
   box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+}
+
+/* ==========================================
+   LANDING PAGE DARK MODE
+   ========================================== */
+.dark {
+  background-color: #020617;
+  color: #f1f5f9;
+}
+
+/* Hero Section */
+.dark #beranda {
+  background-image: linear-gradient(to bottom right, #0b1329, #020617, #1e1b4b) !important;
+}
+.dark #beranda h1 {
+  color: #ffffff;
+}
+.dark #beranda p {
+  color: #94a3b8;
+}
+.dark #beranda .bg-white\/90 {
+  background-color: rgba(15, 23, 42, 0.9) !important;
+  border-color: #1e293b !important;
+  color: #ffffff !important;
+}
+.dark #beranda .bg-white\/90 span {
+  color: #ffffff !important;
+}
+.dark #beranda .text-slate-500 {
+  color: #64748b !important;
+}
+
+/* Problems & Solutions Section */
+.dark section.bg-white {
+  background-color: #020617 !important;
+  border-color: #0f172a !important;
+}
+.dark section.bg-white h2 {
+  color: #ffffff !important;
+}
+.dark section.bg-white p.text-slate-600 {
+  color: #94a3b8 !important;
+}
+.dark section.bg-white .bg-white {
+  background-color: #0f172a !important;
+  border-color: #1e293b !important;
+}
+.dark section.bg-white .bg-white h3, 
+.dark section.bg-white .bg-white h4,
+.dark section.bg-white .bg-white span {
+  color: #ffffff !important;
+}
+.dark section.bg-white .bg-white p {
+  color: #94a3b8 !important;
+}
+
+.dark .bg-red-50\/50 {
+  background-color: rgba(127, 29, 29, 0.1) !important;
+  border-color: rgba(127, 29, 29, 0.2) !important;
+}
+.dark .bg-blue-50\/50 {
+  background-color: rgba(30, 58, 138, 0.1) !important;
+  border-color: rgba(30, 58, 138, 0.2) !important;
+}
+
+/* Features grid */
+.dark section.py-24 {
+  background-color: #020617 !important;
+  border-color: #0f172a !important;
+}
+.dark section.py-24 h2 {
+  color: #ffffff !important;
+}
+.dark section.py-24 p.text-slate-600 {
+  color: #94a3b8 !important;
+}
+.dark section.py-24 .bg-white {
+  background-color: #0f172a !important;
+  border-color: #1e293b !important;
+  color: #ffffff !important;
+}
+.dark section.py-24 .bg-white h3 {
+  color: #ffffff !important;
+}
+.dark section.py-24 .bg-white p {
+  color: #94a3b8 !important;
+}
+
+/* Simulator Section */
+.dark #cara-kerja {
+  background-color: #020617 !important;
+  border-color: #0f172a !important;
+}
+.dark #cara-kerja h2 {
+  color: #ffffff !important;
+}
+.dark #cara-kerja p.text-slate-600 {
+  color: #94a3b8 !important;
+}
+.dark #cara-kerja .bg-white {
+  background-color: #0f172a !important;
+  border-color: #1e293b !important;
+}
+.dark #cara-kerja .bg-white h3, .dark #cara-kerja .bg-white h4 {
+  color: #ffffff !important;
+}
+.dark #cara-kerja .bg-white p {
+  color: #94a3b8 !important;
+}
+.dark #cara-kerja button.bg-white {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #cbd5e1 !important;
+}
+.dark #cara-kerja button.bg-white:hover {
+  background-color: #334155 !important;
+}
+/* Simulator Phone container */
+.dark #cara-kerja .bg-slate-900 {
+  background-color: #000000 !important;
+}
+
+/* FAQ Section */
+.dark #faq {
+  background-color: #020617 !important;
+}
+.dark #faq h2 {
+  color: #ffffff !important;
+}
+.dark #faq p.text-slate-600 {
+  color: #94a3b8 !important;
+}
+.dark #faq .bg-white {
+  background-color: #0f172a !important;
+  border-color: #1e293b !important;
+  color: #ffffff !important;
+}
+.dark #faq .bg-white span {
+  color: #ffffff !important;
+}
+.dark #faq .bg-white p {
+  color: #94a3b8 !important;
+}
+
+/* Contact Section */
+.dark #kontak {
+  background-color: #020617 !important;
+}
+.dark #kontak h2 {
+  color: #ffffff !important;
+}
+.dark #kontak p.text-slate-600 {
+  color: #94a3b8 !important;
+}
+.dark #kontak .bg-slate-50 {
+  background-color: #0f172a !important;
+  border-color: #1e293b !important;
+  color: #ffffff !important;
+}
+.dark #kontak .bg-slate-50 h4 {
+  color: #ffffff !important;
+}
+.dark #kontak .bg-slate-50 p {
+  color: #94a3b8 !important;
+}
+.dark #kontak input, .dark #kontak textarea {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #ffffff !important;
+}
+.dark #kontak input::placeholder, .dark #kontak textarea::placeholder {
+  color: #64748b !important;
+}
+
+/* ==========================================
+   GLOBAL ADMIN PANEL DARK MODE
+   ========================================== */
+.dark body {
+  background-color: #020617 !important;
+  color: #f1f5f9 !important;
+}
+
+/* Penyelarasan Layout Utama & Utility Background/Text */
+.dark .bg-slate-50 {
+  background-color: #020617 !important;
+}
+.dark .bg-white {
+  background-color: #0f172a !important;
+  border-color: #1e293b !important;
+}
+.dark .text-slate-900 {
+  color: #ffffff !important;
+}
+.dark .text-slate-800 {
+  color: #f1f5f9 !important;
+}
+.dark .text-slate-700 {
+  color: #cbd5e1 !important;
+}
+.dark .text-slate-600 {
+  color: #94a3b8 !important;
+}
+.dark .text-slate-500 {
+  color: #64748b !important;
+}
+.dark .text-slate-400 {
+  color: #475569 !important;
+}
+.dark .border-slate-100, .dark .border-slate-200 {
+  border-color: #1e293b !important;
+}
+.dark .ring-slate-200 {
+  --tw-ring-color: #1e293b !important;
+  box-shadow: 0 0 0 1px #1e293b !important;
+}
+.dark .shadow-sm {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Sidebar Dark Mode */
+.dark aside {
+  background-color: #0b1329 !important;
+  border-color: #1e293b !important;
+}
+.dark aside span, .dark aside h3, .dark aside h2 {
+  color: #ffffff !important;
+}
+.dark aside a {
+  color: #94a3b8 !important;
+}
+.dark aside a.active, .dark aside a:hover {
+  background-color: #1e293b !important;
+  color: #3b82f6 !important;
+}
+
+/* Header Dark Mode */
+.dark header {
+  background-color: #0b1329 !important;
+  border-color: #1e293b !important;
+}
+.dark header h2, .dark header span, .dark header p {
+  color: #ffffff !important;
+}
+.dark header input {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #ffffff !important;
+}
+.dark header .bg-slate-100 {
+  background-color: #1e293b !important;
+}
+
+/* Admin Main Content & Halaman Dalam */
+.dark main h1, .dark main h2, .dark main h3, .dark main h4, .dark main span, .dark main td, .dark main th {
+  color: #ffffff !important;
+}
+.dark main p {
+  color: #94a3b8 !important;
+}
+.dark main border-slate-100, .dark main border-slate-200 {
+  border-color: #1e293b !important;
+}
+.dark main .bg-slate-50 {
+  background-color: #1e293b !important;
+}
+
+/* Tabel Admin */
+.dark table {
+  border-color: #1e293b !important;
+}
+.dark tr {
+  border-color: #1e293b !important;
+}
+.dark th {
+  background-color: #1e293b !important;
+  color: #f1f5f9 !important;
+}
+.dark td {
+  border-color: #1e293b !important;
+}
+
+/* Forms & Inputs */
+.dark select, .dark input, .dark textarea {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #ffffff !important;
+}
+.dark label {
+  color: #cbd5e1 !important;
+}
+
+/* Penyesuaian khusus halaman autentikasi admin */
+.dark .bg-gradient-to-br.from-blue-50\/50 {
+  background-image: linear-gradient(to bottom right, #0b1329, #020617, #1e1b4b) !important;
+}
+.dark .bg-white.border-slate-100 {
+  background-color: #0f172a !important;
+  border-color: #1e293b !important;
+}
+.dark .text-slate-500 {
+  color: #94a3b8 !important;
+}
+
+/* Penyesuaian Hover & Efek Transisi */
+.dark .hover\:bg-slate-50:hover {
+  background-color: #1e293b !important;
+}
+.dark .hover\:bg-blue-50:hover {
+  background-color: #1e293b !important;
+}
+.dark .hover\:text-blue-700:hover {
+  color: #60a5fa !important;
+}
+.dark .bg-slate-50\/50 {
+  background-color: rgba(30, 41, 59, 0.5) !important;
 }

@@ -1,18 +1,272 @@
-
 [
-  { "id": 1, "tittle": "Mesin Cuci Front Load 15kg", "code": "LND-001", "category": "Mesin", "brand": "LG", "price": 8500000, "stock": 4 },
-  { "id": 2, "tittle": "Mesin Pengering Gas 15kg", "code": "LND-002", "category": "Mesin", "brand": "Maytag", "price": 12500000, "stock": 2 },
-  { "id": 3, "tittle": "Setrika Uap Boiler 10 Liter", "code": "LND-003", "category": "Peralatan", "brand": "Maomoto", "price": 3200000, "stock": 5 },
-  { "id": 4, "tittle": "Timbangan Digital 30kg", "code": "LND-004", "category": "Peralatan", "brand": "Camry", "price": 450000, "stock": 10 },
-  { "id": 5, "tittle": "Deterjen Cair Premium 5L", "code": "CHM-005", "category": "Bahan Kimia", "brand": "KlinKlin", "price": 75000, "stock": 50 },
-  { "id": 6, "tittle": "Softener (Pelembut) 5L", "code": "CHM-006", "category": "Bahan Kimia", "brand": "Mawar", "price": 65000, "stock": 45 },
-  { "id": 7, "tittle": "Pelicin Pakaian 5L", "code": "CHM-007", "category": "Bahan Kimia", "brand": "Mawar", "price": 60000, "stock": 40 },
-  { "id": 8, "tittle": "Parfum Laundry Premium 1L", "code": "CHM-008", "category": "Bahan Kimia", "brand": "Snappy", "price": 85000, "stock": 30 },
-  { "id": 9, "tittle": "Penghilang Noda Membandel 1L", "code": "CHM-009", "category": "Bahan Kimia", "brand": "Vanish", "price": 45000, "stock": 25 },
-  { "id": 10, "tittle": "Plastik Packing Jinjing (1 Pack)", "code": "SPL-010", "category": "Perlengkapan", "brand": "Lokal", "price": 25000, "stock": 100 },
-  { "id": 11, "tittle": "Hanger Kawat (100 Pcs)", "code": "SPL-011", "category": "Perlengkapan", "brand": "Lokal", "price": 45000, "stock": 80 },
-  { "id": 12, "tittle": "Keranjang Laundry Besar", "code": "SPL-012", "category": "Perlengkapan", "brand": "Lion Star", "price": 85000, "stock": 20 },
-  { "id": 13, "tittle": "Tag Gun Label (Alat Tembak Label)", "code": "SPL-013", "category": "Perlengkapan", "brand": "Joyko", "price": 35000, "stock": 15 },
-  { "id": 14, "tittle": "Pita Label Kertas Anti Air (Roll)", "code": "SPL-014", "category": "Perlengkapan", "brand": "Lokal", "price": 15000, "stock": 60 },
-  { "id": 15, "tittle": "Buku Nota Laundry 3 Rangkap", "code": "SPL-015", "category": "Perlengkapan", "brand": "Paperline", "price": 12000, "stock": 40 }
+  { 
+    "id": 1, 
+    "tittle": "Mesin Cuci Front Load 15kg", 
+    "code": "LND-001", 
+    "category": "Mesin", 
+    "brand": "LG", 
+    "price": 8500000, 
+    "stock": 4,
+    "image": "https://images.unsplash.com/photo-1582735689369-4fe89db7114c?auto=format&fit=crop&w=600&q=80"
+  },
+  { 
+    "id": 2, 
+    "tittle": "Mesin Pengering Gas 15kg", 
+    "code": "LND-002", 
+    "category": "Mesin", 
+    "brand": "Maytag", 
+    "price": 12500000, 
+    "stock": 2,
+    "image": "https://images.unsplash.com/photo-1610557892470-76d74022fa86?auto=format&fit=crop&w=600&q=80"
+  },
+  { 
+    "id": 3, 
+    "tittle": "Setrika Uap Boiler 10 Liter", 
+    "code": "LND-003", 
+    "category": "Peralatan", 
+    "brand": "Maomoto", 
+    "price": 3200000, 
+    "stock": 5,
+    "image": "https://images.unsplash.com/photo-1489274495757-95c7c837b101?auto=format&fit=crop&w=600&q=80"
+  },
+  { 
+    "id": 4, 
+    "tittle": "Timbangan Digital 30kg", 
+    "code": "LND-004", 
+    "category": "Peralatan", 
+    "brand": "Camry", 
+    "price": 450000, 
+    "stock": 10,
+    "image": "https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&w=600&q=80"
+  },
+  { 
+    "id": 5, 
+    "tittle": "Deterjen Cair Premium 5L", 
+    "code": "CHM-005", 
+    "category": "Bahan Kimia", 
+    "brand": "KlinKlin", 
+    "price": 75000, 
+    "stock": 50,
+    "image": "https://images.unsplash.com/photo-1607344645866-009c320c5ab8?auto=format&fit=crop&w=600&q=80"
+  },
+  { 
+    "id": 6, 
+    "tittle": "Softener (Pelembut) 5L", 
+    "code": "CHM-006", 
+    "category": "Bahan Kimia", 
+    "brand": "Mawar", 
+    "price": 65000, 
+    "stock": 45,
+    "image": "https://images.unsplash.com/photo-1563453392212-326f5e854473?auto=format&fit=crop&w=600&q=80"
+  },
+  { 
+    "id": 7, 
+    "tittle": "Pelicin Pakaian 5L", 
+    "code": "CHM-007", 
+    "category": "Bahan Kimia", 
+    "brand": "Mawar", 
+    "price": 60000, 
+    "stock": 40,
+    "image": "https://images.unsplash.com/photo-1517677208171-0bc6725a3e60?auto=format&fit=crop&w=600&q=80"
+  },
+  { 
+    "id": 8, 
+    "tittle": "Parfum Laundry Premium 1L", 
+    "code": "CHM-008", 
+    "category": "Bahan Kimia", 
+    "brand": "Snappy", 
+    "price": 85000, 
+    "stock": 30,
+    "image": "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&w=600&q=80"
+  },
+  { 
+    "id": 9, 
+    "tittle": "Penghilang Noda Membandel 1L", 
+    "code": "CHM-009", 
+    "category": "Bahan Kimia", 
+    "brand": "Vanish", 
+    "price": 45000, 
+    "stock": 25,
+    "image": "https://images.unsplash.com/photo-1583947581924-860bda6a26df?auto=format&fit=crop&w=600&q=80"
+  },
+  { 
+    "id": 10, 
+    "tittle": "Plastik Packing Jinjing (1 Pack)", 
+    "code": "SPL-010", 
+    "category": "Perlengkapan", 
+    "brand": "Lokal", 
+    "price": 25000, 
+    "stock": 100,
+    "image": "https://images.unsplash.com/photo-1595079676339-1534801ad6cf?auto=format&fit=crop&w=600&q=80"
+  },
+  { 
+    "id": 11, 
+    "tittle": "Hanger Kawat (100 Pcs)", 
+    "code": "SPL-011", 
+    "category": "Perlengkapan", 
+    "brand": "Lokal", 
+    "price": 45000, 
+    "stock": 80,
+    "image": "https://images.unsplash.com/photo-1616627561950-9f746e330187?auto=format&fit=crop&w=600&q=80"
+  },
+  { 
+    "id": 12, 
+    "tittle": "Keranjang Laundry Besar", 
+    "code": "SPL-012", 
+    "category": "Perlengkapan", 
+    "brand": "Lion Star", 
+    "price": 85000, 
+    "stock": 20,
+    "image": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=600&q=80"
+  },
+  { 
+    "id": 13, 
+    "tittle": "Tag Gun Label (Alat Tembak Label)", 
+    "code": "SPL-013", 
+    "category": "Perlengkapan", 
+    "brand": "Joyko", 
+    "price": 35000, 
+    "stock": 15,
+    "image": "https://images.unsplash.com/photo-1509343256512-d77a5cb3791b?auto=format&fit=crop&w=600&q=80"
+  },
+  { 
+    "id": 14, 
+    "tittle": "Pita Label Kertas Anti Air (Roll)", 
+    "code": "SPL-014", 
+    "category": "Perlengkapan", 
+    "brand": "Lokal", 
+    "price": 15000, 
+    "stock": 60,
+    "image": "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&w=600&q=80"
+  },
+  { 
+    "id": 15, 
+    "tittle": "Buku Nota Laundry 3 Rangkap", 
+    "code": "SPL-015", 
+    "category": "Perlengkapan", 
+    "brand": "Paperline", 
+    "price": 12000, 
+    "stock": 40,
+    "image": "https://images.unsplash.com/photo-1586075010923-2dd4570fb338?auto=format&fit=crop&w=600&q=80"
+  },
+  { 
+    "id": 16, 
+    "tittle": "Kaos Polo Giordano Classic", 
+    "code": "CLO-016", 
+    "category": "Pakaian", 
+    "brand": "Giordano", 
+    "price": 299000, 
+    "stock": 25,
+    "image": "https://images.unsplash.com/photo-1581655353564-df123a1eb820?auto=format&fit=crop&w=600&q=80"
+  },
+  { 
+    "id": 17, 
+    "tittle": "Kemeja Uniqlo Flannel Lengan Panjang", 
+    "code": "CLO-017", 
+    "category": "Pakaian", 
+    "brand": "Uniqlo", 
+    "price": 499000, 
+    "stock": 15,
+    "image": "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=600&q=80"
+  },
+  { 
+    "id": 18, 
+    "tittle": "Kaos Uniqlo Airism Crew Neck", 
+    "code": "CLO-018", 
+    "category": "Pakaian", 
+    "brand": "Uniqlo", 
+    "price": 199000, 
+    "stock": 50,
+    "image": "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80"
+  },
+  { 
+    "id": 19, 
+    "tittle": "Celana Chino Giordano Slim Fit", 
+    "code": "CLO-019", 
+    "category": "Pakaian", 
+    "brand": "Giordano", 
+    "price": 449000, 
+    "stock": 12,
+    "image": "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=600&q=80"
+  },
+  { 
+    "id": 20, 
+    "tittle": "Kemeja Zara Cotton Oxford", 
+    "code": "CLO-020", 
+    "category": "Pakaian", 
+    "brand": "Zara", 
+    "price": 699000, 
+    "stock": 8,
+    "image": "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=600&q=80"
+  },
+  { 
+    "id": 21, 
+    "tittle": "Hoodie H&M Sporty Fit", 
+    "code": "CLO-021", 
+    "category": "Pakaian", 
+    "brand": "H&M", 
+    "price": 399000, 
+    "stock": 20,
+    "image": "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=600&q=80"
+  },
+  { 
+    "id": 22, 
+    "tittle": "Kemeja Giordano Oxford Lengan Pendek", 
+    "code": "CLO-022", 
+    "category": "Pakaian", 
+    "brand": "Giordano", 
+    "price": 349000, 
+    "stock": 18, 
+    "image": "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=600&q=80"
+  },
+  { 
+    "id": 23, 
+    "tittle": "Kaos Uniqlo UT Graphic Tee", 
+    "code": "CLO-023", 
+    "category": "Pakaian", 
+    "brand": "Uniqlo", 
+    "price": 249000, 
+    "stock": 35, 
+    "image": "https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=600&q=80"
+  },
+  { 
+    "id": 24, 
+    "tittle": "Jaket Denim Zara Classic", 
+    "code": "CLO-024", 
+    "category": "Pakaian", 
+    "brand": "Zara", 
+    "price": 999000, 
+    "stock": 5, 
+    "image": "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?auto=format&fit=crop&w=600&q=80"
+  },
+  { 
+    "id": 25, 
+    "tittle": "Celana Jeans H&M Slim Fit", 
+    "code": "CLO-025", 
+    "category": "Pakaian", 
+    "brand": "H&M", 
+    "price": 499000, 
+    "stock": 16, 
+    "image": "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=600&q=80"
+  },
+  { 
+    "id": 26, 
+    "tittle": "Kemeja Uniqlo Rayon Lengan Pendek", 
+    "code": "CLO-026", 
+    "category": "Pakaian", 
+    "brand": "Uniqlo", 
+    "price": 399000, 
+    "stock": 22, 
+    "image": "https://images.unsplash.com/photo-1603252109303-2751441dd157?auto=format&fit=crop&w=600&q=80"
+  },
+  { 
+    "id": 27, 
+    "tittle": "Sweater Giordano Crew Neck", 
+    "code": "CLO-027", 
+    "category": "Pakaian", 
+    "brand": "Giordano", 
+    "price": 399000, 
+    "stock": 14, 
+    "image": "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=600&q=80"
+  }
 ]

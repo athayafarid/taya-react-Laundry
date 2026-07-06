@@ -20,7 +20,7 @@ const menuItems = [
   { to: "/tracking", label: "Tracking Status", icon: MdLocationOn },
   { to: "/customers", label: "Data Pelanggan", icon: MdPeople },
   { to: "/services", label: "Layanan & Harga", icon: MdLocalLaundryService },
-  { to: "/Product", label: "Produk", icon: MdInventory2 },
+  { to: "/product", label: "Produk", icon: MdInventory2 },
 ];
 
 export default function Sidebar({ isOpen = false, onClose = () => {} }) {
