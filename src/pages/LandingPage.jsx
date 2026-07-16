@@ -48,6 +48,14 @@ export default function LandingPage() {
   const [bannerText, setBannerText] = useState("");
   const [selectedReminder, setSelectedReminder] = useState(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isLoginDropdownOpen, setIsLoginDropdownOpen] = useState(false);
+
+  // Menutup dropdown saat klik di luar
+  useEffect(() => {
+    const closeDropdown = () => setIsLoginDropdownOpen(false);
+    document.addEventListener("click", closeDropdown);
+    return () => document.removeEventListener("click", closeDropdown);
+  }, []);
 
   // Fungsi Toggle FAQ
   const toggleFaq = (index) => {
@@ -145,9 +153,71 @@ export default function LandingPage() {
             >
               {isDarkMode ? <Sun size={16} /> : <Moon size={16} />}
             </button>
-            <Link to="/login" className={`font-bold px-4 py-2 transition text-sm ${isDarkMode ? "text-slate-300 hover:text-blue-400" : "text-slate-700 hover:text-blue-600"}`}>
-              Masuk
-            </Link>
+            <div className="relative">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsLoginDropdownOpen(!isLoginDropdownOpen);
+                }}
+                onMouseEnter={() => setIsLoginDropdownOpen(true)}
+                className={`font-bold px-4 py-2 transition text-sm flex items-center gap-1 cursor-pointer ${isDarkMode ? "text-slate-300 hover:text-blue-400" : "text-slate-700 hover:text-blue-600"}`}
+              >
+                Masuk <ChevronDown size={14} />
+              </button>
+
+              {isLoginDropdownOpen && (
+                <div
+                  onMouseLeave={() => setIsLoginDropdownOpen(false)}
+                  className={`absolute right-0 mt-2 w-72 rounded-2xl border p-2.5 shadow-2xl transition-all duration-200 animate-fadeIn text-left z-50
+                    ${isDarkMode ? "bg-slate-900 border-slate-800 text-slate-100" : "bg-white border-slate-150 text-slate-800"}`}
+                >
+                  {/* Option 1: Guest */}
+                  <Link
+                    to="/guest"
+                    onClick={() => setIsLoginDropdownOpen(false)}
+                    className={`flex items-center gap-3.5 p-3 rounded-xl transition ${isDarkMode ? "hover:bg-slate-800" : "hover:bg-slate-50"}`}
+                  >
+                    <div className="p-2.5 rounded-xl bg-blue-100 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400">
+                      <Users size={16} />
+                    </div>
+                    <div>
+                      <h4 className="text-xs font-black">Pelacakan Tamu (Guest)</h4>
+                      <p className="text-[10px] text-slate-400 font-bold mt-0.5">Cek status laundry tanpa login</p>
+                    </div>
+                  </Link>
+
+                  {/* Option 2: Member */}
+                  <Link
+                    to="/member/login"
+                    onClick={() => setIsLoginDropdownOpen(false)}
+                    className={`flex items-center gap-3.5 p-3 rounded-xl transition ${isDarkMode ? "hover:bg-slate-800" : "hover:bg-slate-50"}`}
+                  >
+                    <div className="p-2.5 rounded-xl bg-indigo-100 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400">
+                      <Users size={16} />
+                    </div>
+                    <div>
+                      <h4 className="text-xs font-black">Portal Member</h4>
+                      <p className="text-[10px] text-slate-400 font-bold mt-0.5">Ajukan cuci & tukar poin loyalitas</p>
+                    </div>
+                  </Link>
+
+                  {/* Option 3: Admin */}
+                  <Link
+                    to="/login"
+                    onClick={() => setIsLoginDropdownOpen(false)}
+                    className={`flex items-center gap-3.5 p-3 rounded-xl transition ${isDarkMode ? "hover:bg-slate-800" : "hover:bg-slate-50"}`}
+                  >
+                    <div className="p-2.5 rounded-xl bg-purple-100 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400">
+                      <Shield size={16} />
+                    </div>
+                    <div>
+                      <h4 className="text-xs font-black">Portal Admin</h4>
+                      <p className="text-[10px] text-slate-400 font-bold mt-0.5">Kelola order, pelanggan & produk</p>
+                    </div>
+                  </Link>
+                </div>
+              )}
+            </div>
             <Link to="/register" className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-bold transition text-sm shadow-md shadow-blue-500/10">
               Daftar Gratis
             </Link>
@@ -200,24 +270,58 @@ export default function LandingPage() {
             >
               Kontak
             </a>
-            <div className="flex gap-4 pt-2 items-center">
-              {/* Mobile Theme Toggle Button */}
-              <button
-                onClick={toggleTheme}
-                className={`p-3 rounded-xl border transition-all duration-200 cursor-pointer flex items-center justify-center
-                  ${isDarkMode 
-                    ? "border-slate-800 bg-slate-900 text-yellow-400" 
-                    : "border-slate-200 bg-slate-50 text-slate-700"}`}
-                aria-label="Toggle theme"
-              >
-                {isDarkMode ? <Sun size={16} /> : <Moon size={16} />}
-              </button>
-              <Link to="/login" className={`flex-1 text-center border font-bold py-3 rounded-xl transition text-sm ${isDarkMode ? "border-slate-800 hover:border-blue-500 text-slate-300" : "border-slate-200 hover:border-blue-600 text-slate-700"}`}>
-                Masuk
-              </Link>
-              <Link to="/register" className="flex-1 text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition text-sm shadow-md">
-                Daftar
-              </Link>
+            <div className="flex flex-col gap-3.5 pt-2 text-left">
+              <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">Masuk Portal</span>
+              
+              <div className="grid grid-cols-1 gap-2">
+                <Link 
+                  to="/guest" 
+                  onClick={() => setIsMobileMenuOpen(false)} 
+                  className={`flex items-center gap-3 p-3 rounded-xl border transition text-xs font-bold ${isDarkMode ? "border-slate-800 bg-slate-900/40 text-slate-200" : "border-slate-200 bg-slate-50 text-slate-700"}`}
+                >
+                  <Users size={14} className="text-blue-500" />
+                  <span>Pelacakan Tamu (Guest)</span>
+                </Link>
+                
+                <Link 
+                  to="/member/login" 
+                  onClick={() => setIsMobileMenuOpen(false)} 
+                  className={`flex items-center gap-3 p-3 rounded-xl border transition text-xs font-bold ${isDarkMode ? "border-slate-800 bg-slate-900/40 text-slate-200" : "border-slate-200 bg-slate-50 text-slate-700"}`}
+                >
+                  <Users size={14} className="text-indigo-500" />
+                  <span>Portal Member</span>
+                </Link>
+                
+                <Link 
+                  to="/login" 
+                  onClick={() => setIsMobileMenuOpen(false)} 
+                  className={`flex items-center gap-3 p-3 rounded-xl border transition text-xs font-bold ${isDarkMode ? "border-slate-800 bg-blue-950/20 text-blue-400" : "border-blue-150 bg-blue-50/50 text-blue-700"}`}
+                >
+                  <Shield size={14} className="text-blue-600" />
+                  <span>Portal Admin</span>
+                </Link>
+              </div>
+
+              <div className="flex gap-4 pt-2 items-center">
+                {/* Mobile Theme Toggle Button */}
+                <button
+                  onClick={toggleTheme}
+                  className={`p-3 rounded-xl border transition-all duration-200 cursor-pointer flex items-center justify-center
+                    ${isDarkMode 
+                      ? "border-slate-800 bg-slate-900 text-yellow-400" 
+                      : "border-slate-200 bg-slate-50 text-slate-700"}`}
+                  aria-label="Toggle theme"
+                >
+                  {isDarkMode ? <Sun size={16} /> : <Moon size={16} />}
+                </button>
+                <Link 
+                  to="/register" 
+                  onClick={() => setIsMobileMenuOpen(false)} 
+                  className="flex-1 text-center bg-blue-600 hover:bg-blue-700 text-white font-extrabold py-3.5 rounded-xl transition text-xs uppercase tracking-widest shadow-md shadow-blue-500/10"
+                >
+                  Daftar Gratis
+                </Link>
+              </div>
             </div>
           </div>
         )}
